@@ -16,6 +16,24 @@
       "revId": "d08b84b7d7dee21ed11e628ac95a9b28407dce15",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3///Yw\u003d",
+        "filename": "VolumeManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1362
+      },
+      "writtenOn": "2011-10-13T19:45:40Z",
+      "side": 1,
+      "message": "Sure, I just copied the way it was done in Fat.cpp. I\u0027ll upload a new patch.",
+      "parentUuid": "AAAAJ3///ZY\u003d",
+      "revId": "d08b84b7d7dee21ed11e628ac95a9b28407dce15",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
