@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdH///94\u003d",
+        "filename": "Volume.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5492
+      },
+      "writtenOn": "2013-02-05T03:24:18Z",
+      "side": 1,
+      "message": "Cache is useless if you create it from scratch at each function call?",
+      "revId": "463f26125e83c0c530bbf6a7111cd8e81cd309eb",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdH///9c\u003d",
+        "filename": "Volume.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5492
+      },
+      "writtenOn": "2013-02-05T03:24:18Z",
+      "side": 1,
+      "message": "I used the following one-liner for the above block of code:\n\n  fstype \u003d blkid_get_tag_value(NULL, \"TYPE\", devicePath);\n\nor with cache:\n\n  static blkid_cache cache \u003d 0;\n  if (!cache) {\n    blkid_get_cache(\u0026cache, NULL);\n  }\n\n  fstype \u003d blkid_get_tag_value(cache, \"TYPE\", devicePath);\n\nThis also removes the necessity for the blkidP and probe headers, which are \u0027private\u0027 headers I believe.",
+      "revId": "463f26125e83c0c530bbf6a7111cd8e81cd309eb",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
