@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "iEVAsFY",
+        "filename": "Volume.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 6529
+      },
+      "writtenOn": "2013-06-20T12:09:36Z",
+      "side": 1,
+      "message": "i think there is still logic error here .\nif non-primary storage here ,you should goto fail_republish.\nbecause vold didn\u0027t create bindmount for it .",
+      "revId": "74f10db319aacb24b2750c77f0dacf947cb1b114",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
