@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dac4157f_51740ffc",
+        "filename": "Exfat.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5281
+      },
+      "writtenOn": "2013-07-06T16:33:16Z",
+      "side": 1,
+      "message": "Spaces here",
+      "revId": "b15fd4bfbffc155e327b19feb66679f4808dd6d1",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
