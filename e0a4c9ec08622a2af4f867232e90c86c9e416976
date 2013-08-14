@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dae975fb_dd9eee06",
+        "filename": "fstrim.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2013-08-14T07:35:10Z",
+      "side": 1,
+      "message": "use spaces, not tabs",
+      "revId": "e0a4c9ec08622a2af4f867232e90c86c9e416976",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
