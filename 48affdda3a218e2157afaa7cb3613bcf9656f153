@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa80f949_6852bcdf",
+        "filename": "Volume.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1381
+      },
+      "writtenOn": "2013-12-05T15:57:43Z",
+      "side": 1,
+      "message": "This won\u0027t work. exFAT volume will have the format of \"XXXX-XXXX\", ext4 volumes with have a format of \"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX\".",
+      "revId": "48affdda3a218e2157afaa7cb3613bcf9656f153",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa80f949_085e90e9",
+        "filename": "Volume.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1381
+      },
+      "writtenOn": "2013-12-05T15:57:43Z",
+      "side": 1,
+      "message": "Reading it on mount will have the problem that if vold is killed and restarted, it will mark the partition as mounted when requested without going through the mounting procedure and the file system id will not be set.",
+      "revId": "48affdda3a218e2157afaa7cb3613bcf9656f153",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
