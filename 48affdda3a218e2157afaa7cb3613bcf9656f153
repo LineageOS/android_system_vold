@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa80f949_83c4a192",
+        "filename": "Volume.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5503
+      },
+      "writtenOn": "2013-12-06T14:54:46Z",
+      "side": 1,
+      "message": "How is this different than the java code that does parseLong()?",
+      "parentUuid": "fa80f949_6852bcdf",
+      "revId": "48affdda3a218e2157afaa7cb3613bcf9656f153",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa80f949_085e90e9",
         "filename": "Volume.cpp",
         "patchSetId": 2
