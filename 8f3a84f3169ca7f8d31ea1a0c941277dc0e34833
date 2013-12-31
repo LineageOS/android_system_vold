@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a5de9d1_06621ad9",
+        "filename": "CommandListener.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6051
+      },
+      "writtenOn": "2013-12-31T00:34:07Z",
+      "side": 0,
+      "message": "1-\n(argc \u003d\u003d 5 \u0026\u0026 strcmp(argv[3], \"wipe\")))\nshouldn\u0027t be ?\n(argc \u003d\u003d 5 \u0026\u0026 strcmp(argv[4], \"wipe\")))\n\nActually, in recovery, vold_custom_format_volume() doesnt send wipe as argument, so we would never end here for now\n\n\n2-\nIn recovery, formatting with fstype would give argc \u003d 4 and argv[argc -1] not wipe\nso, I guess this would fail and the formatting will be always in current fstype or vfat\n\nI will verify it and submit a patch if needed",
+      "revId": "8f3a84f3169ca7f8d31ea1a0c941277dc0e34833",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
