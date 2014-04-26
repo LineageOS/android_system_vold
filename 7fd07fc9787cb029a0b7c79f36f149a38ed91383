@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af24918_16bf5bd1",
+        "filename": "VolumeManager.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1269,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2014-04-26T18:55:50Z",
+      "side": 1,
+      "message": "Isn\u0027t this the reason we have TARGET_USE_CUSTOM_LUN_FILE_PATH?",
+      "revId": "7fd07fc9787cb029a0b7c79f36f149a38ed91383",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
