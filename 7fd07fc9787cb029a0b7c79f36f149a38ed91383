@@ -34,6 +34,24 @@
       "revId": "7fd07fc9787cb029a0b7c79f36f149a38ed91383",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af24918_168d9b31",
+        "filename": "VolumeManager.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1269,
+      "author": {
+        "id": 6051
+      },
+      "writtenOn": "2014-04-26T20:04:50Z",
+      "side": 1,
+      "message": "Adding those lines doesn\u0027t cause any harm. Custom lun path flag being on top, next entries are skipped if first one is success\n\nPlus, it simplifies the BoardConfig.mk",
+      "parentUuid": "7af24918_f6c8ef76",
+      "revId": "7fd07fc9787cb029a0b7c79f36f149a38ed91383",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
