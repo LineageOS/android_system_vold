@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bacf61ea_7f578c02",
+        "filename": "cryptfs.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 3659,
+      "author": {
+        "id": 12725
+      },
+      "writtenOn": "2015-02-20T22:37:24Z",
+      "side": 1,
+      "message": "This should probably be indented by 4 extra spaces to match.",
+      "revId": "2385a45333b3a5df38b0b35b32d99be76bcb4d65",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bacf61ea_1f52d013",
+        "filename": "cryptfs.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 3669,
+      "author": {
+        "id": 12725
+      },
+      "writtenOn": "2015-02-20T22:37:24Z",
+      "side": 1,
+      "message": "Might be worth checking this while you\u0027re at it (though it\u0027s not nearly as dangerous).",
+      "revId": "2385a45333b3a5df38b0b35b32d99be76bcb4d65",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
