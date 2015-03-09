@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ad45d7e_1314a2f3",
+        "filename": "cryptfs.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 2157,
+      "author": {
+        "id": 6315
+      },
+      "writtenOn": "2015-03-09T10:46:07Z",
+      "side": 1,
+      "message": "Why would I want to free a NULL object?",
+      "parentUuid": "9ad45d7e_130e6234",
+      "revId": "ee97de68908bbec65ef93dd5aec00b9f01bbd0fd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ad45d7e_73135e5d",
         "filename": "cryptfs.c",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-03-09T08:01:27Z",
       "side": 1,
       "message": "Same here, passwd points to adjusted_passwd, which you\u0027ve freed already.",
+      "revId": "ee97de68908bbec65ef93dd5aec00b9f01bbd0fd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad45d7e_73f99ec8",
+        "filename": "cryptfs.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 3622,
+      "author": {
+        "id": 6315
+      },
+      "writtenOn": "2015-03-09T10:46:07Z",
+      "side": 1,
+      "message": "see above",
+      "parentUuid": "9ad45d7e_73135e5d",
       "revId": "ee97de68908bbec65ef93dd5aec00b9f01bbd0fd",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
