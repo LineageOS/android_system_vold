@@ -16,6 +16,24 @@
       "revId": "3499c36781ff7ff5243be0c171f763352dffc69e",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad45d7e_d3096adf",
+        "filename": "cryptfs.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 3597,
+      "author": {
+        "id": 6315
+      },
+      "writtenOn": "2015-03-09T10:39:00Z",
+      "side": 1,
+      "message": "This label is improperly named as well, as \"deactivated\" is commented \"/* Default */\" condition...\n\nIn the conditional below, it jumps to \"exit_err\" as well, even though it\u0027s not an error.",
+      "parentUuid": "9ad45d7e_b31dd668",
+      "revId": "3499c36781ff7ff5243be0c171f763352dffc69e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
