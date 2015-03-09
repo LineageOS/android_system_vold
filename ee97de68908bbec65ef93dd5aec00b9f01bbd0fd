@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ad45d7e_130e6234",
+        "filename": "cryptfs.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 2157,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-03-09T08:01:27Z",
+      "side": 1,
+      "message": "passwd points to adjusted_passwd right now, which you\u0027ve just freed. Isn\u0027t this going to fail?",
+      "revId": "ee97de68908bbec65ef93dd5aec00b9f01bbd0fd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad45d7e_73135e5d",
+        "filename": "cryptfs.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 3622,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-03-09T08:01:27Z",
+      "side": 1,
+      "message": "Same here, passwd points to adjusted_passwd, which you\u0027ve freed already.",
+      "revId": "ee97de68908bbec65ef93dd5aec00b9f01bbd0fd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
