@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ad45d7e_737cfe20",
+        "filename": "cryptfs.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 3677,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-03-09T11:29:49Z",
+      "side": 1,
+      "message": "Need a free(...) call here too, this is an exit from this function.",
+      "revId": "8cfcae194ef159fba089e25542c8b7a4334d5edd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad45d7e_13878210",
+        "filename": "cryptfs.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 3685,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-03-09T11:29:49Z",
+      "side": 1,
+      "message": "You probably want this to be below the #endif.",
+      "revId": "8cfcae194ef159fba089e25542c8b7a4334d5edd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
