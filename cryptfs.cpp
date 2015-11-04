@@ -105,12 +105,19 @@ static struct crypt_persist_data *persist_data = NULL;
 /* Should we use keymaster? */
 static int keymaster_check_compatibility()
 {
+#ifdef MINIVOLD
+    return -1;
+#else
     return keymaster_compatibility_cryptfs_scrypt();
+#endif
 }
 
 /* Create a new keymaster key and store it in this footer */
 static int keymaster_create_key(struct crypt_mnt_ftr *ftr)
 {
+#ifdef MINIVOLD // no HALs in recovery...
+    return -1;
+#else
     if (ftr->keymaster_blob_size) {
         SLOGI("Already have key");
         return 0;
@@ -128,6 +135,7 @@ static int keymaster_create_key(struct crypt_mnt_ftr *ftr)
         return -1;
     }
     return 0;
+#endif
 }
 
 /* This signs the given object using the keymaster key. */
@@ -137,6 +145,9 @@ static int keymaster_sign_object(struct crypt_mnt_ftr *ftr,
                                  unsigned char **signature,
                                  size_t *signature_size)
 {
+#ifdef MINIVOLD // no HALs in recovery...
+    return -1;
+#else
     unsigned char to_sign[RSA_KEY_SIZE_BYTES];
     size_t to_sign_size = sizeof(to_sign);
     memset(to_sign, 0, RSA_KEY_SIZE_BYTES);
@@ -172,6 +183,7 @@ static int keymaster_sign_object(struct crypt_mnt_ftr *ftr,
     }
     return keymaster_sign_object_for_cryptfs_scrypt(ftr->keymaster_blob, ftr->keymaster_blob_size,
             KEYMASTER_CRYPTFS_RATE_LIMIT, to_sign, to_sign_size, signature, signature_size);
+#endif
 }
 
 /* Store password when userdata is successfully decrypted and mounted.
