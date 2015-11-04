@@ -21,6 +21,28 @@
 
 #include <string>
 
+#ifdef MINIVOLD
+
+namespace android {
+namespace vold {
+
+class KeyAuthentication {
+ public:
+  KeyAuthentication(std::string t, std::string s) {}
+};
+
+extern const KeyAuthentication kEmptyAuthentication;
+
+static inline bool storeKey(const std::string& dir, const KeyAuthentication& auth, const std::string& key) { return false; }
+static inline bool retrieveKey(const std::string& dir, const KeyAuthentication& auth, std::string* key) { return false; }
+static inline bool destroyKey(const std::string& dir) { return false; }
+static inline bool runSecdiscardSingle(const std::string& file) { return false; }
+
+}
+}
+
+#else
+
 namespace android {
 namespace vold {
 
@@ -66,5 +88,7 @@ bool destroyKey(const std::string& dir);
 bool runSecdiscardSingle(const std::string& file);
 }  // namespace vold
 }  // namespace android
+
+#endif // MINIVOLD
 
 #endif

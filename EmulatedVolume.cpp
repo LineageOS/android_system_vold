@@ -16,6 +16,7 @@
 
 #include "EmulatedVolume.h"
 #include "Utils.h"
+#include "ResponseCode.h"
 
 #include <android-base/stringprintf.h>
 #include <android-base/logging.h>
@@ -35,7 +36,11 @@ using android::base::StringPrintf;
 namespace android {
 namespace vold {
 
+#ifdef MINIVOLD
+static const char* kFusePath = "/sbin/sdcard";
+#else
 static const char* kFusePath = "/system/bin/sdcard";
+#endif
 
 EmulatedVolume::EmulatedVolume(const std::string& rawPath) :
         VolumeBase(Type::kEmulated), mFusePid(0) {
@@ -52,6 +57,13 @@ EmulatedVolume::EmulatedVolume(const std::string& rawPath, dev_t device,
 }
 
 EmulatedVolume::~EmulatedVolume() {
+}
+
+status_t EmulatedVolume::doCreate() {
+    if (mLabel.size() > 0) {
+        notifyEvent(ResponseCode::VolumeFsLabelChanged, mLabel);
+    }
+    return OK;
 }
 
 status_t EmulatedVolume::doMount() {
@@ -110,7 +122,7 @@ status_t EmulatedVolume::doMount() {
     return OK;
 }
 
-status_t EmulatedVolume::doUnmount() {
+status_t EmulatedVolume::doUnmount(bool detach /* = false */) {
     // Unmount the storage before we kill the FUSE process. If we kill
     // the FUSE process first, most file system operations will return
     // ENOTCONN until the unmount completes. This is an exotic and unusual
