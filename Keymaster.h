@@ -23,6 +23,23 @@
 #include <string>
 #include <utility>
 
+#ifdef MINIVOLD
+
+namespace android {
+namespace vold {
+
+class Keymaster {
+  public:
+    Keymaster() {}
+  private:
+    DISALLOW_COPY_AND_ASSIGN(Keymaster);
+};
+
+}
+}
+
+#else
+
 #include <android/hardware/keymaster/3.0/IKeymasterDevice.h>
 #include <keystore/authorization_set.h>
 
@@ -112,6 +129,8 @@ class Keymaster {
 
 }  // namespace vold
 }  // namespace android
+
+#endif // MINIVOLD
 
 #endif // __cplusplus
 

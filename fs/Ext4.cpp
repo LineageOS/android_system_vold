@@ -54,6 +54,11 @@ namespace android {
 namespace vold {
 namespace ext4 {
 
+#ifdef MINIVOLD
+static const char* kResizefsPath = "/sbin/resize2fs";
+static const char* kMkfsPath = "/sbin/mke2fs";
+static const char* kFsckPath = "/sbin/e2fsck";
+#else
 static const char* kResizefsPath = "/system/bin/resize2fs";
 #ifdef TARGET_USES_MKE2FS
 static const char* kMkfsPath = "/system/bin/mke2fs";
@@ -61,6 +66,7 @@ static const char* kMkfsPath = "/system/bin/mke2fs";
 static const char* kMkfsPath = "/system/bin/make_ext4fs";
 #endif
 static const char* kFsckPath = "/system/bin/e2fsck";
+#endif
 
 bool IsSupported() {
     return access(kMkfsPath, X_OK) == 0

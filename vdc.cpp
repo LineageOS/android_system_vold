@@ -42,7 +42,7 @@ static int do_cmd(int sock, int argc, char **argv);
 
 static constexpr int kCommandTimeoutMs = 20 * 1000;
 
-int main(int argc, char **argv) {
+extern "C" int vdc_main(int argc, char **argv) {
     int sock;
     int wait_for_socket;
     char *progname;
@@ -179,3 +179,10 @@ static int do_monitor(int sock, int stop_after_seq) {
 static void usage(char *progname) {
     LOG(INFO) << "Usage: " << progname << " [--wait] <monitor>|<cmd> [arg1] [arg2...]";
 }
+
+#ifndef MINIVOLD
+int main(int argc, char **argv) {
+    return vdc_main(argc, argv);
+}
+#endif
+
