@@ -16,6 +16,24 @@
       "revId": "a719e53094c8d1299e8e5551326b9bcb35a080c0",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f2f7f8d_63eb58b0",
+        "filename": "VolumeBase.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5503
+      },
+      "writtenOn": "2015-11-06T05:36:02Z",
+      "side": 1,
+      "message": "Because I default the fslabel to the disk \"nickname\" (which is the fstab label) and send a VolumeFsLabelChanged notification in the derived classes\u0027 doCreate(). It doesn\u0027t make sense to get a changed message before a create message.\n\nBut that particular part of this change should probably be switched over to http://review.cyanogenmod.org/117510",
+      "parentUuid": "1f2f7f8d_03bff4fb",
+      "revId": "a719e53094c8d1299e8e5551326b9bcb35a080c0",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
