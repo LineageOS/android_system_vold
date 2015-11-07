@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f2f7f8d_9267a826",
+        "filename": "Disk.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-11-07T05:19:23Z",
+      "side": 1,
+      "message": "Maybe have some mechanism to allow devices to add entries?",
+      "revId": "afd8745c58630ca43329c2fffc2546b2bd56f18c",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
