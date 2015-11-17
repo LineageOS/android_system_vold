@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff5d4b2f_0a4a7b7f",
+        "filename": "Volume.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2015-11-17T02:49:27Z",
+      "side": 1,
+      "message": "Ah, OK, I see why this weirds me out. This is changing behavior in the parent class, but has a hard dependency on the child class signaling the parent class. This logic really should go in DirectVolume.cpp instead.",
+      "revId": "8ae9c4de4abd0647a69f473079ea751266408d8a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
