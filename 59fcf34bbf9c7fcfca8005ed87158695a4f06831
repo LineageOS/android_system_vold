@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fce034c_1e940b44",
+        "filename": "Loop.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-01-05T07:11:26Z",
+      "side": 1,
+      "message": "create and resize here both call fallocate/ftruncate, which expects off_t. This should be either 32 or 64 bits depending on the arch. I\u0027m not sure changing this to a long here actually solves your 64-bit issue.",
+      "revId": "59fcf34bbf9c7fcfca8005ed87158695a4f06831",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
