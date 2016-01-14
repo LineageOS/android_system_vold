@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fcbff3d_cae24630",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-01-14T06:25:17Z",
+      "side": 1,
+      "message": "Should probably use a tab here, or place this in a separate LOCAL_SRC_FILES +\u003d\n\nAlso, we already include libvold as a static library, which should get $(common_src_files).\n\nWhat\u0027s going on?",
+      "revId": "758d530aa6a0bd10089fee43ebd7c41cc01f6932",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
