@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1fcbff3d_a01356b8",
+        "filename": "fs/Ext4.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 14727
+      },
+      "writtenOn": "2016-01-16T17:24:07Z",
+      "side": 1,
+      "message": "Apparently something like this is needed. I tried with a recently formatted sd card and it results in 0775 0 0, or 0755 root:root. Changing the owner to media_rw:media_rw doesn\u0027t work anymore, because com.android.externalstorage is running as u0_a10 : uid\u003d10010(u0_a10) gid\u003d10010(u0_a10) groups\u003d10010(u0_a10)u0_a10. chown 10010:10010 does work, but further investigation is needed.",
+      "parentUuid": "1fcbff3d_7d3f55d6",
+      "revId": "3fe10c5937abb7d0ff365ef6ef82350b6ed7dfe8",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fcbff3d_3d5c6d4a",
         "filename": "fs/Ext4.h",
         "patchSetId": 1
@@ -72,6 +90,30 @@
       "side": 1,
       "message": "I can\u0027t rely on the trusted bool, because it is false for calls from PublicVolume and VolumeManager whereas only the PublicVolume call should be distinguishable.\n\nNaming things is hard. Would \"public\" be a better name?",
       "parentUuid": "1fcbff3d_3d5c6d4a",
+      "range": {
+        "startLine": 32,
+        "startChar": 44,
+        "endLine": 32,
+        "endChar": 50
+      },
+      "revId": "3fe10c5937abb7d0ff365ef6ef82350b6ed7dfe8",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fcbff3d_c018e2d4",
+        "filename": "fs/Ext4.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 14727
+      },
+      "writtenOn": "2016-01-16T17:24:07Z",
+      "side": 1,
+      "message": "Done. Portable sounds better indeed as there are new concepts with Marshmallow.",
+      "parentUuid": "1fcbff3d_5d3a99e7",
       "range": {
         "startLine": 32,
         "startChar": 44,
