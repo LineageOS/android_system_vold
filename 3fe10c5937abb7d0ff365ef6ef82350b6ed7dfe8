@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "1fcbff3d_23977093",
+        "filename": "fs/Ext4.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 14727
+      },
+      "writtenOn": "2016-01-16T22:36:23Z",
+      "side": 1,
+      "message": "Done. It seems my test case caused some problems with media_rw:media_rw. CM file manager works fine with these lines, but Total Commander seems to result in \"EACCES permission denied.\" I think I\u0027m not familiar enough with TC yet, sorry about that.\n\nAs said, the chown is required with recently formatted card, because otherwise it\u0027s owned by root. The chmod probably isn\u0027t, but I think it should be as caution if the sd card has been previously used on a different machine with different permissions. Any comments?",
+      "parentUuid": "1fcbff3d_a01356b8",
+      "revId": "3fe10c5937abb7d0ff365ef6ef82350b6ed7dfe8",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fcbff3d_3d5c6d4a",
         "filename": "fs/Ext4.h",
         "patchSetId": 1
