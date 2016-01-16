@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fcbff3d_bd505d34",
+        "filename": "fs/Ext4.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2016-01-16T05:24:43Z",
+      "side": 1,
+      "message": "Are these still needed?",
+      "revId": "3fe10c5937abb7d0ff365ef6ef82350b6ed7dfe8",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fcbff3d_3d5c6d4a",
+        "filename": "fs/Ext4.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2016-01-16T05:24:43Z",
+      "side": 1,
+      "message": "sdcard isn\u0027t a good name for this bool IMHO, since this code can be used for usb storage too. Maybe better to rebase on top of http://review.cyanogenmod.org/122003 and use the trusted bool?",
+      "range": {
+        "startLine": 32,
+        "startChar": 44,
+        "endLine": 32,
+        "endChar": 50
+      },
+      "revId": "3fe10c5937abb7d0ff365ef6ef82350b6ed7dfe8",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
