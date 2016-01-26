@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fcbff3d_4e888ac5",
+        "filename": "Android.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-01-26T02:09:38Z",
+      "side": 1,
+      "message": "If you are going to pathmap device/qcom/common directly, you don\u0027t need to specify common here.",
+      "revId": "55c9392260277307a80b8bad543fd7bba447289a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
