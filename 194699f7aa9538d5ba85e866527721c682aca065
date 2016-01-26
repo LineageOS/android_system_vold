@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1fcbff3d_6ed786c1",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-01-26T01:55:57Z",
+      "side": 1,
+      "message": "This makes the makefile needlessly complex. Pathmapping was designed to avoid this sort of special casing. For that reason qcom_target.mk must be included before everything else.",
+      "parentUuid": "1fcbff3d_2e4c1ec6",
+      "revId": "194699f7aa9538d5ba85e866527721c682aca065",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fcbff3d_8e5bd285",
         "filename": "Android.mk",
         "patchSetId": 1
