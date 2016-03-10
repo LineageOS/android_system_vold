@@ -59,7 +59,7 @@ security_context_t sFsckContext = nullptr;
 security_context_t sFsckUntrustedContext = nullptr;
 
 #ifdef MINIVOLD
-static const char* kBlkidPath = "/sbin/blkid";
+#include <blkid/blkid.h>
 #else
 static const char* kBlkidPath = "/system/bin/blkid";
 #endif
@@ -201,9 +201,23 @@ status_t BindMount(const std::string& source, const std::string& target) {
 
 static status_t readMetadata(const std::string& path, std::string& fsType,
         std::string& fsUuid, std::string& fsLabel, bool untrusted) {
+#ifdef MINIVOLD
+    char *val = NULL;
+    val = blkid_get_tag_value(NULL, "TYPE", path.c_str());
+    if (val) {
+        fsType = val;
+    }
+    val = blkid_get_tag_value(NULL, "UUID", path.c_str());
+    if (val) {
+        fsUuid = val;
+    }
+    val = blkid_get_tag_value(NULL, "LABEL", path.c_str());
+    if (val) {
+        fsUuid = val;
+    }
+#else
     std::vector<std::string> cmd;
     cmd.push_back(kBlkidPath);
-#ifndef MINIVOLD
     cmd.push_back("-c");
     cmd.push_back("/dev/null");
     cmd.push_back("-s");
@@ -212,7 +226,6 @@ static status_t readMetadata(const std::string& path, std::string& fsType,
     cmd.push_back("UUID");
     cmd.push_back("-s");
     cmd.push_back("LABEL");
-#endif
     cmd.push_back(path);
 
     std::vector<std::string> output;
@@ -241,6 +254,7 @@ static status_t readMetadata(const std::string& path, std::string& fsType,
             fsLabel = value;
         }
     }
+#endif
 
     return OK;
 }

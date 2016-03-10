@@ -48,6 +48,7 @@ common_c_includes := \
 	external/f2fs-tools/include \
 	frameworks/native/include \
 	system/security/keystore \
+	external/e2fsprogs/lib \
 
 common_libraries := \
 	libsysutils \
@@ -222,7 +223,7 @@ LOCAL_STATIC_LIBRARIES := libminivold
 LOCAL_STATIC_LIBRARIES += libc libc++_static libm
 LOCAL_STATIC_LIBRARIES += libbase
 LOCAL_STATIC_LIBRARIES += $(common_static_libraries) $(common_libraries)
-LOCAL_STATIC_LIBRARIES += libcrypto_static libext2_uuid
+LOCAL_STATIC_LIBRARIES += libcrypto_static libext2_blkid libext2_uuid
 LOCAL_STATIC_LIBRARIES += libnl
 LOCAL_SHARED_LIBRARIES := $(common_shared_libraries)
 LOCAL_FORCE_STATIC_EXECUTABLE := true
