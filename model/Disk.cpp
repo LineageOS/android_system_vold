@@ -355,6 +355,15 @@ status_t Disk::readPartitions() {
     if (res != OK) {
         LOG(WARNING) << "sgdisk failed to scan " << mDevPath;
 
+        std::string fsType, unused;
+        if (ReadMetadataUntrusted(mDevPath, &fsType, &unused, &unused) == OK) {
+            if (fsType == "iso9660") {
+                LOG(INFO) << "Detect iso9660";
+                createPublicVolume(mDevice);
+                res = OK;
+            }
+        }
+
         auto listener = VolumeManager::Instance()->getListener();
         if (listener) listener->onDiskScanned(getId());
 
