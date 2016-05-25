@@ -199,6 +199,8 @@ void VolumeManager::handleBlockEvent(NetlinkEvent *evt) {
                     || (eventPath.find("ufs") != std::string::npos)
                     || android::vold::Disk::isVirtioBlkDevice(major)) {
                     flags |= android::vold::Disk::Flags::kSd;
+                } else if (major == android::vold::Disk::kMajorBlockCdrom) {
+                    flags |= android::vold::Disk::Flags::kCdrom;
                 } else {
                     flags |= android::vold::Disk::Flags::kUsb;
                 }
