@@ -22,6 +22,7 @@
 #include "fs/Exfat.h"
 #include "fs/Ext4.h"
 #include "fs/F2fs.h"
+#include "fs/Iso9660.h"
 #include "fs/Ntfs.h"
 #include "fs/Vfat.h"
 
@@ -64,6 +65,12 @@ PublicVolume::~PublicVolume() {}
 
 status_t PublicVolume::readMetadata() {
     status_t res = ReadMetadataUntrusted(mDevPath, &mFsType, &mFsUuid, &mFsLabel);
+
+    // iso9660 has no UUID, we use label as UUID
+    if (mFsType == "iso9660" && mFsUuid.empty() && !mFsLabel.empty()) {
+        std::replace(mFsLabel.begin(), mFsLabel.end(), ' ', '_');
+        mFsUuid = mFsLabel;
+    }
 
     auto listener = getListener();
     if (listener) listener->onVolumeMetadataChanged(getId(), mFsType, mFsUuid, mFsLabel);
@@ -163,6 +170,8 @@ status_t PublicVolume::doMount() {
                 false, true);
     } else if (mFsType == "f2fs") {
         ret = f2fs::Mount(mDevPath, mRawPath, mMntOpts, false, true);
+    } else if (mFsType == "iso9660") {
+        ret = iso9660::Mount(mDevPath, mRawPath, AID_MEDIA_RW, AID_MEDIA_RW);
     } else if (mFsType == "ntfs") {
         ret = ntfs::Mount(mDevPath, mRawPath, AID_ROOT,
                  (isVisible ? AID_MEDIA_RW : AID_EXTERNAL_STORAGE), 0007);
