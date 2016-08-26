@@ -3,7 +3,6 @@ LOCAL_PATH:= $(call my-dir)
 mini_src_files := \
 	VolumeManager.cpp \
 	CommandListener.cpp \
-	CryptCommandListener.cpp \
 	VoldCommand.cpp \
 	NetlinkManager.cpp \
 	NetlinkHandler.cpp \
@@ -17,9 +16,7 @@ mini_src_files := \
 	Devmapper.cpp \
 	ResponseCode.cpp \
 	CheckBattery.cpp \
-	Ext4Crypt.cpp \
 	VoldUtil.c \
-	cryptfs.cpp \
 	Disk.cpp \
 	DiskPartition.cpp \
 	VolumeBase.cpp \
@@ -30,17 +27,20 @@ mini_src_files := \
 	MoveTask.cpp \
 	Benchmark.cpp \
 	TrimTask.cpp \
-	ScryptParameters.cpp \
-	secontext.cpp \
-	EncryptInplace.cpp \
-	MetadataCrypt.cpp
+	secontext.cpp
 
 full_src_files := \
 	$(mini_src_files) \
+	CryptCommandListener.cpp \
+	Ext4Crypt.cpp \
+	cryptfs.cpp \
 	KeyBuffer.cpp \
 	Keymaster.cpp \
 	KeyStorage.cpp \
-	KeyUtil.cpp
+	KeyUtil.cpp \
+	EncryptInplace.cpp \
+	ScryptParameters.cpp \
+	MetadataCrypt.cpp
 
 common_c_includes := \
 	system/extras/f2fs_utils \
