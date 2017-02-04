@@ -108,6 +108,7 @@ ifeq ($(TARGET_USERIMAGES_USE_EXT4), true)
 endif
 
 ifeq ($(TARGET_HW_DISK_ENCRYPTION),true)
+  TARGET_CRYPTFS_HW_PATH ?= vendor/qcom/opensource/cryptfs_hw
   common_c_includes += $(TARGET_CRYPTFS_HW_PATH)
   common_shared_libraries += libcryptfs_hw
   vold_cflags += -DCONFIG_HW_DISK_ENCRYPTION
