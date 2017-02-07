@@ -111,6 +111,7 @@ status_t Check(const std::string& source) {
         default:
             SLOGE("Filesystem check failed (unknown exit code %d)", rc);
             errno = EIO;
+            if (rc == 8) return -2;
             return -1;
         }
     } while (0);

@@ -161,6 +161,7 @@ status_t PublicVolume::doMount() {
     } else {
         LOG(WARNING) << getId() << " unsupported filesystem check, skipping";
     }
+    if (ret == -2) return ret;
     if (ret) {
         LOG(ERROR) << getId() << " failed filesystem check";
         return -EIO;
