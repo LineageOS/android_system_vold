@@ -43,8 +43,6 @@ using namespace std::chrono_literals;
 namespace android {
 namespace vold {
 
-static const unsigned int kMajorBlockMmc = 179;
-
 PrivateVolume::PrivateVolume(dev_t device, const std::string& keyRaw) :
         VolumeBase(Type::kPrivate), mRawDevice(device), mKeyRaw(keyRaw) {
     setId(StringPrintf("private:%u,%u", major(device), minor(device)));
@@ -190,7 +188,7 @@ status_t PrivateVolume::doFormat(const std::string& fsType) {
     if (fsType == "auto") {
         // For now, assume that all MMC devices are flash-based SD cards, and
         // give everyone else ext4 because sysfs rotational isn't reliable.
-        if ((major(mRawDevice) == kMajorBlockMmc) && f2fs::IsSupported()) {
+        if ((major(mRawDevice) == Disk::kMajorBlockMmc) && f2fs::IsSupported()) {
             resolvedFsType = "f2fs";
         } else {
             resolvedFsType = "ext4";
