@@ -56,27 +56,6 @@ static const char* kSysfsLoopMaxMinors = "/sys/module/loop/parameters/max_part";
 static const char* kSysfsMmcMaxMinorsDeprecated = "/sys/module/mmcblk/parameters/perdev_minors";
 static const char* kSysfsMmcMaxMinors = "/sys/module/mmc_block/parameters/perdev_minors";
 
-static const unsigned int kMajorBlockLoop = 7;
-static const unsigned int kMajorBlockScsiA = 8;
-static const unsigned int kMajorBlockScsiB = 65;
-static const unsigned int kMajorBlockScsiC = 66;
-static const unsigned int kMajorBlockScsiD = 67;
-static const unsigned int kMajorBlockScsiE = 68;
-static const unsigned int kMajorBlockScsiF = 69;
-static const unsigned int kMajorBlockScsiG = 70;
-static const unsigned int kMajorBlockScsiH = 71;
-static const unsigned int kMajorBlockScsiI = 128;
-static const unsigned int kMajorBlockScsiJ = 129;
-static const unsigned int kMajorBlockScsiK = 130;
-static const unsigned int kMajorBlockScsiL = 131;
-static const unsigned int kMajorBlockScsiM = 132;
-static const unsigned int kMajorBlockScsiN = 133;
-static const unsigned int kMajorBlockScsiO = 134;
-static const unsigned int kMajorBlockScsiP = 135;
-static const unsigned int kMajorBlockMmc = 179;
-static const unsigned int kMajorBlockExperimentalMin = 240;
-static const unsigned int kMajorBlockExperimentalMax = 254;
-
 static const char* kGptBasicData = "EBD0A0A2-B9E5-4433-87C0-68B6B72699C7";
 static const char* kGptLinuxFilesystem = "0FC63DAF-8483-4772-8E79-3D69D8477DE4";
 static const char* kGptAndroidMeta = "19A710A2-B3CA-11E4-B026-10604B889DCF";
@@ -88,7 +67,7 @@ enum class Table {
     kGpt,
 };
 
-static bool isVirtioBlkDevice(unsigned int major) {
+bool Disk::isVirtioBlkDevice(unsigned int major) {
     /*
      * The new emulator's "ranchu" virtual board no longer includes a goldfish
      * MMC-based SD card device; instead, it emulates SD cards with virtio-blk,
