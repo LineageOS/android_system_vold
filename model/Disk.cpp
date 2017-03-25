@@ -361,8 +361,8 @@ status_t Disk::readPartitions() {
 
         std::string fsType, unused;
         if (ReadMetadataUntrusted(mDevPath, &fsType, &unused, &unused) == OK) {
-            if (fsType == "iso9660") {
-                LOG(INFO) << "Detect iso9660";
+            if (fsType == "iso9660" || fsType == "udf") {
+                LOG(INFO) << "Detect " << fsType;
                 createPublicVolume(mDevice);
                 res = OK;
             }
@@ -412,6 +412,7 @@ status_t Disk::readPartitions() {
                 }
 
                 switch (type) {
+                    case 0x00: // ISO9660
                     case 0x06:  // FAT16
                     case 0x07:  // HPFS/NTFS/exFAT
                     case 0x0b:  // W95 FAT32 (LBA)
