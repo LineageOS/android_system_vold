@@ -154,7 +154,7 @@ status_t PublicVolume::doMount() {
         ret = ntfs::Check(mDevPath);
     } else if (mFsType == "vfat") {
         ret = vfat::Check(mDevPath);
-    } else {
+    } else if (mFsType != "iso9660") {
         LOG(WARNING) << getId() << " unsupported filesystem check, skipping";
     }
     if (ret) {
