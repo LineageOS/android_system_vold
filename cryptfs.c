@@ -3399,6 +3399,7 @@ int cryptfs_enable_internal(char *howarg, int crypt_type, char *passwd,
             SLOGE("Orig filesystem overlaps crypto footer region.  Cannot encrypt in place.");
             goto error_unencrypted;
         }
+SLOGE("Crypto footer ok\n");
     }
 
     /* Get a wakelock as this may take a while, and we don't want the
@@ -3506,17 +3507,24 @@ int cryptfs_enable_internal(char *howarg, int crypt_type, char *passwd,
         if (!rebootEncryption)
             clear_hw_device_encryption_key();
 
+SLOGE("%s: gonna create with default %s or password %s depend on %i\n", __func__, DEFAULT_PASSWORD, passwd, onlyCreateHeader);
         if (get_keymaster_hw_fde_passwd(
                          onlyCreateHeader ? DEFAULT_PASSWORD : passwd,
-                         newpw, crypt_ftr.salt, &crypt_ftr))
+                         newpw, crypt_ftr.salt, &crypt_ftr)) {
             key_index = set_hw_device_encryption_key(
                          onlyCreateHeader ? DEFAULT_PASSWORD : passwd,
                          (char*)crypt_ftr.crypto_type_name);
-        else
+SLOGE("%s: case1\n", __func__);
+		}
+        else {
             key_index = set_hw_device_encryption_key((const char*)newpw,
                                 (char*) crypt_ftr.crypto_type_name);
-        if (key_index < 0)
+SLOGE("%s: case2\n", __func__);
+		}
+        if (key_index < 0) {
+SLOGE("%s: error key_index\n", __func__);
             goto error_shutting_down;
+		}
 
         crypt_ftr.flags |= CRYPT_ASCII_PASSWORD_UPDATED;
         put_crypt_ftr_and_key(&crypt_ftr);
@@ -3536,6 +3544,7 @@ int cryptfs_enable_internal(char *howarg, int crypt_type, char *passwd,
          */
         if (fs_mgr_do_tmpfs_mount(DATA_MNT_POINT)) {
             goto error_shutting_down;
+SLOGE("%s: error tmpfs mount\n", __func__);
         }
         /* Tells the framework that inplace encryption is starting */
         property_set("vold.encrypt_progress", "0");
@@ -3544,6 +3553,7 @@ int cryptfs_enable_internal(char *howarg, int crypt_type, char *passwd,
         /* Create necessary paths on /data */
         if (prep_data_fs()) {
             goto error_shutting_down;
+SLOGE("%s: error create into /data\n", __func__);
         }
 
         /* Ugh, shutting down the framework is not synchronous, so until it
