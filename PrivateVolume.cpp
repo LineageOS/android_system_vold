@@ -137,7 +137,10 @@ status_t PrivateVolume::doMount() {
         return -EIO;
     }
 
-    RestoreconRecursive(mPath);
+    status_t res = restoreConOnFirstMount();
+    if (res != OK) {
+        return res;
+    }
 
     // Verify that common directories are ready to roll
     if (PrepareDir(mPath + "/app", 0771, AID_SYSTEM, AID_SYSTEM) ||
@@ -167,6 +170,25 @@ status_t PrivateVolume::doUnmount(bool detach /* = false */) {
 
     if (TEMP_FAILURE_RETRY(rmdir(mPath.c_str()))) {
         PLOG(ERROR) << getId() << " failed to rmdir mount point " << mPath;
+    }
+
+    return OK;
+}
+
+status_t PrivateVolume::restoreConOnFirstMount() {
+    VolumeManager *vm = VolumeManager::Instance();
+
+    std::shared_ptr<Disk> disk = vm->findDisk(getDiskId());
+    if (disk == nullptr) {
+        LOG(ERROR) << getId() << " volume's containing disk " << getDiskId() << " vanished";
+        return -EIO;
+    }
+    bool restoreConComplete = disk->getVolumeCompletedRestorecon(getId());
+    if (!restoreConComplete) {
+        RestoreconRecursive(mPath);
+        disk->markVolumeCompletedRestorecon(getId());
+    } else {
+        LOG(DEBUG) << getId() << " skipping restorecon (previously complete)";
     }
 
     return OK;

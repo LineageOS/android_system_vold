@@ -49,6 +49,8 @@ protected:
 
     status_t readMetadata();
 
+    status_t restoreConOnFirstMount();
+
 private:
     /* Kernel device of raw, encrypted partition */
     dev_t mRawDevice;

@@ -23,6 +23,7 @@
 #include <utils/Errors.h>
 
 #include <vector>
+#include <set>
 
 namespace android {
 namespace vold {
@@ -84,6 +85,10 @@ public:
     void notifyEvent(int msg);
     void notifyEvent(int msg, const std::string& value);
 
+    bool getVolumeCompletedRestorecon(const std::string& id);
+
+    void markVolumeCompletedRestorecon(const std::string &id);
+
 protected:
     /* ID that uniquely references this disk */
     std::string mId;
@@ -111,6 +116,16 @@ protected:
     bool mJustPartitioned;
     /* Flag that we need to skip first disk change events after partitioning*/
     bool mSkipChange;
+
+    /* IDs of volumes who have already completed restorecon, don't need it again
+
+       The important property of these IDs is that they have the
+       lifetime of the object (until the Disk is removed), and
+       are not cleared by destroy() - ie this value will survive a
+       watchdog timeout / reset to avoid a repeat restorecon of the
+       same filesystem.
+	*/
+    std::set<std::string> mRestoreconVolumeIds;
 
     void createPublicVolume(dev_t device,
                     const std::string& fstype = "",

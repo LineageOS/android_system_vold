@@ -586,6 +586,17 @@ void Disk::notifyEvent(int event, const std::string& value) {
             StringPrintf("%s %s", getId().c_str(), value.c_str()).c_str(), false);
 }
 
+bool Disk::getVolumeCompletedRestorecon(const std::string& id)
+{
+    return mRestoreconVolumeIds.find(id) != mRestoreconVolumeIds.end();
+}
+
+void Disk::markVolumeCompletedRestorecon(const std::string &id)
+{
+    mRestoreconVolumeIds.insert(id);
+}
+
+
 int Disk::getMaxMinors() {
     // Figure out maximum partition devices supported
     unsigned int majorId = major(mDevice);
