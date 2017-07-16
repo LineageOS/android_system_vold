@@ -2400,29 +2400,28 @@ int cryptfs_check_passwd(char *passwd)
 
     if (rc) {
         SLOGE("Password did not match");
+        if (crypt_ftr.flags & CRYPT_FORCE_COMPLETE) {
+            // Here we have a default actual password but a real password
+            // we must test against the scrypted value
+            // First, we must delete the crypto block device that
+            // test_mount_encrypted_fs leaves behind as a side effect
+            delete_crypto_blk_dev(CRYPTO_BLOCK_DEVICE);
+            rc = test_mount_encrypted_fs(&crypt_ftr, DEFAULT_PASSWORD,
+                                         DATA_MNT_POINT, CRYPTO_BLOCK_DEVICE);
+            if (rc) {
+                SLOGE("Default password did not match on reboot encryption");
+                return rc;
+            }
+
+            crypt_ftr.flags &= ~CRYPT_FORCE_COMPLETE;
+            put_crypt_ftr_and_key(&crypt_ftr);
+            rc = cryptfs_changepw(crypt_ftr.crypt_type, DEFAULT_PASSWORD, passwd);
+            if (rc) {
+                SLOGE("Could not change password on reboot encryption");
+                return rc;
+            }
+        }
         return rc;
-    }
-
-    if (crypt_ftr.flags & CRYPT_FORCE_COMPLETE) {
-        // Here we have a default actual password but a real password
-        // we must test against the scrypted value
-        // First, we must delete the crypto block device that
-        // test_mount_encrypted_fs leaves behind as a side effect
-        delete_crypto_blk_dev(CRYPTO_BLOCK_DEVICE);
-        rc = test_mount_encrypted_fs(&crypt_ftr, DEFAULT_PASSWORD,
-                                     DATA_MNT_POINT, CRYPTO_BLOCK_DEVICE);
-        if (rc) {
-            SLOGE("Default password did not match on reboot encryption");
-            return rc;
-        }
-
-        crypt_ftr.flags &= ~CRYPT_FORCE_COMPLETE;
-        put_crypt_ftr_and_key(&crypt_ftr);
-        rc = cryptfs_changepw(crypt_ftr.crypt_type, DEFAULT_PASSWORD, passwd);
-        if (rc) {
-            SLOGE("Could not change password on reboot encryption");
-            return rc;
-        }
     }
 
     if (crypt_ftr.crypt_type != CRYPT_TYPE_DEFAULT) {
