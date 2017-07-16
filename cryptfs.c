@@ -2403,8 +2403,9 @@ int cryptfs_check_passwd(char *passwd)
         return rc;
     }
 
-    if (crypt_ftr.flags & CRYPT_FORCE_COMPLETE) {
-        // Here we have a default actual password but a real password
+    if (crypt_ftr.flags & CRYPT_FORCE_COMPLETE && rc) {
+        // User password do not match but encryption is complete, 
+        // test with default_password then replace by user one:
         // we must test against the scrypted value
         // First, we must delete the crypto block device that
         // test_mount_encrypted_fs leaves behind as a side effect
