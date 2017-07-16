@@ -318,11 +318,13 @@ static int keymaster_check_compatibility()
     }
 
     if (keymaster1_dev) {
+		SLOGE("keymaster1 found\n");
         rc = 1;
         goto out;
     }
 
     if (!keymaster0_dev || !keymaster0_dev->common.module) {
+		SLOGE("keymaster0 found\n");
         rc = -1;
         goto out;
     }
@@ -331,12 +333,14 @@ static int keymaster_check_compatibility()
     // should work.
     if (keymaster0_dev->common.module->module_api_version
             < KEYMASTER_MODULE_API_VERSION_0_3) {
+		SLOGE("keymaster api version not good!\n");
         rc = 0;
         goto out;
     }
 
     if (!(keymaster0_dev->flags & KEYMASTER_SOFTWARE_ONLY) &&
         (keymaster0_dev->flags & KEYMASTER_BLOBS_ARE_STANDALONE)) {
+		SLOGE("keymaster0 type problem\n");
         rc = 1;
     }
 
@@ -709,11 +713,16 @@ static int get_crypt_ftr_info(char **metadata_fname, off64_t *off)
   if (!cached_data) {
     fs_mgr_get_crypt_info(fstab, key_loc, real_blkdev, sizeof(key_loc));
 
+	SLOGI("fs_mgr_get_crypt_info report footer being in %s for real dev %s\n", key_loc, real_blkdev);
+
     if (!strcmp(key_loc, KEY_IN_FOOTER)) {
       if ( (fd = open(real_blkdev, O_RDWR|O_CLOEXEC)) < 0) {
         SLOGE("Cannot open real block device %s\n", real_blkdev);
         return -1;
-      }
+      } else {
+
+		SLOGE("what? footer is not in %s!\n", KEY_IN_FOOTER);
+	}
 
       unsigned long nr_sec = 0;
       get_blkdev_size(fd, &nr_sec);
@@ -2123,7 +2132,9 @@ static int test_mount_encrypted_fs(struct crypt_mnt_ftr* crypt_ftr,
       SLOGE("Failed to decrypt master key\n");
       rc = -1;
       goto errout;
-    }
+    } else {
+		SLOGD("Succesfull decrypted master key %s with password %s\n", decrypted_master_key, passwd);
+	}
   }
 
   fs_mgr_get_crypt_info(fstab, 0, real_blkdev, sizeof(real_blkdev));
@@ -2135,7 +2146,9 @@ static int test_mount_encrypted_fs(struct crypt_mnt_ftr* crypt_ftr,
      SLOGE("Error creating decrypted block device\n");
      rc = -1;
      goto errout;
-  }
+  } else {
+	SLOGD("Decrypted block device %s on %s succesfull\n", crypto_blkdev, real_blkdev);
+	}
 
   /* Work out if the problem is the password or the data */
   unsigned char scrypted_intermediate_key[sizeof(crypt_ftr->
@@ -2149,10 +2162,17 @@ static int test_mount_encrypted_fs(struct crypt_mnt_ftr* crypt_ftr,
                      N, r, p, scrypted_intermediate_key,
                      sizeof(scrypted_intermediate_key));
 
+	SLOGI("memcmp: computed %s\n", scrypted_intermediate_key);
+	SLOGI("memcmp:   stored %s\n", crypt_ftr->scrypted_intermediate_key);
+
+	int foo = memcmp(scrypted_intermediate_key,
+				crypt_ftr->scrypted_intermediate_key,
+				sizeof(scrypted_intermediate_key));
+
+	SLOGI("Time for real things. Crypto_script: %d, memcp: %d\n", rc, foo); 
+
   // Does the key match the crypto footer?
-  if (rc == 0 && memcmp(scrypted_intermediate_key,
-                        crypt_ftr->scrypted_intermediate_key,
-                        sizeof(scrypted_intermediate_key)) == 0) {
+  if (rc == 0 && foo == 0) {
     SLOGI("Password matches");
     rc = 0;
   } else {
@@ -2160,6 +2180,7 @@ static int test_mount_encrypted_fs(struct crypt_mnt_ftr* crypt_ftr,
      * the footer, not the key. */
     sprintf(tmp_mount_point, "%s/tmp_mnt", mount_point);
     mkdir(tmp_mount_point, 0755);
+	SLOGI("About temp mounting dest fs %s on %s, dev %s\n", DATA_MNT_POINT, tmp_mount_point, crypto_blkdev);
     if (fs_mgr_do_mount(fstab, DATA_MNT_POINT, crypto_blkdev, tmp_mount_point)) {
       SLOGE("Error temp mounting decrypted block device\n");
       delete_crypto_blk_dev(label);
@@ -2205,6 +2226,7 @@ static int test_mount_encrypted_fs(struct crypt_mnt_ftr* crypt_ftr,
     }
 
     if (upgrade) {
+		SLOGI("Going to upgrade crypto footer\n"); 
         rc = encrypt_master_key(passwd, crypt_ftr->salt, saved_master_key,
                                 crypt_ftr->master_key, crypt_ftr, true);
         if (!rc) {
@@ -2229,6 +2251,7 @@ static int test_mount_encrypted_fs(struct crypt_mnt_ftr* crypt_ftr,
   if (intermediate_key) {
     memset(intermediate_key, 0, intermediate_key_size);
     free(intermediate_key);
+	SLOGD("Leaving test_mount_encrypted_fs with rc=%d\n", rc); 
   }
   return rc;
 }
@@ -2412,14 +2435,9 @@ int cryptfs_check_passwd(char *passwd)
                 SLOGE("Default password did not match on reboot encryption");
                 return rc;
             }
+        return rc;
+    }
 
-            crypt_ftr.flags &= ~CRYPT_FORCE_COMPLETE;
-            put_crypt_ftr_and_key(&crypt_ftr);
-            rc = cryptfs_changepw(crypt_ftr.crypt_type, DEFAULT_PASSWORD, passwd);
-            if (rc) {
-                SLOGE("Could not change password on reboot encryption");
-                return rc;
-            }
         }
         return rc;
     }
