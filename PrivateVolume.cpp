@@ -62,6 +62,9 @@ status_t PrivateVolume::readMetadata() {
 }
 
 status_t PrivateVolume::doCreate() {
+#ifdef MINIVOLD
+    return -EIO;
+#else
     if (CreateDeviceNode(mRawDevPath, mRawDevice)) {
         return -EIO;
     }
@@ -82,13 +85,18 @@ status_t PrivateVolume::doCreate() {
     }
 
     return OK;
+#endif
 }
 
 status_t PrivateVolume::doDestroy() {
+#ifdef MINIVOLD
+    return -EIO;
+#else
     if (cryptfs_revert_ext_volume(getId().c_str())) {
         LOG(ERROR) << getId() << " failed to revert cryptfs";
     }
     return DestroyDeviceNode(mRawDevPath);
+#endif
 }
 
 status_t PrivateVolume::doMount() {
