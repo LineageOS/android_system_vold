@@ -27,7 +27,8 @@ mini_src_files := \
 	MoveTask.cpp \
 	Benchmark.cpp \
 	TrimTask.cpp \
-	secontext.cpp
+	secontext.cpp \
+	main.cpp
 
 full_src_files := \
 	$(mini_src_files) \
@@ -150,7 +151,6 @@ LOCAL_TIDY := true
 LOCAL_TIDY_FLAGS := $(common_local_tidy_flags)
 LOCAL_TIDY_CHECKS := $(common_local_tidy_checks)
 LOCAL_SRC_FILES := \
-	main.cpp \
 	vold.c
 
 LOCAL_INIT_RC := vold.rc
