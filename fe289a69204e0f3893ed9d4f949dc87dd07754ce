@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f4e796e_7c52a554",
+        "filename": "Disk.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 3671
+      },
+      "writtenOn": "2018-01-24T14:26:57Z",
+      "side": 1,
+      "message": "line length",
+      "range": {
+        "startLine": 373,
+        "startChar": 100,
+        "endLine": 373,
+        "endChar": 105
+      },
+      "revId": "fe289a69204e0f3893ed9d4f949dc87dd07754ce",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
