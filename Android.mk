@@ -118,6 +118,11 @@ ifeq ($(TARGET_KERNEL_HAVE_EXFAT),true)
   vold_cflags += -DCONFIG_KERNEL_HAVE_EXFAT
 endif
 
+# This obsoletes TARGET_KERNEL_HAVE_EXFAT
+ifeq ($(TARGET_KERNEL_HAVE_SDFAT),true)
+  vold_cflags += -DCONFIG_KERNEL_HAVE_SDFAT
+endif
+
 ifeq ($(TARGET_KERNEL_HAVE_NTFS),true)
   vold_cflags += -DCONFIG_KERNEL_HAVE_NTFS
 endif

@@ -33,7 +33,7 @@ namespace exfat {
 
 static const char* kMkfsPath = "/system/bin/mkfs.exfat";
 static const char* kFsckPath = "/system/bin/fsck.exfat";
-#ifdef CONFIG_KERNEL_HAVE_EXFAT
+#if defined(CONFIG_KERNEL_HAVE_EXFAT) || defined(CONFIG_KERNEL_HAVE_SDFAT)
 static const char* kMountPath = "/system/bin/mount";
 #else
 static const char* kMountPath = "/system/bin/mount.exfat";
@@ -63,7 +63,7 @@ status_t Mount(const std::string& source, const std::string& target, bool ro,
     const char* c_target = target.c_str();
 
     sprintf(mountData,
-#ifdef CONFIG_KERNEL_HAVE_EXFAT
+#if defined(CONFIG_KERNEL_HAVE_EXFAT) || defined(CONFIG_KERNEL_HAVE_SDFAT)
             "noatime,nodev,nosuid,uid=%d,gid=%d,fmask=%o,dmask=%o,%s,%s",
 #else
             "noatime,nodev,nosuid,dirsync,uid=%d,gid=%d,fmask=%o,dmask=%o,%s,%s",
@@ -77,6 +77,10 @@ status_t Mount(const std::string& source, const std::string& target, bool ro,
 #ifdef CONFIG_KERNEL_HAVE_EXFAT
     cmd.push_back("-t");
     cmd.push_back("exfat");
+#endif
+#ifdef CONFIG_KERNEL_HAVE_SDFAT
+    cmd.push_back("-t");
+    cmd.push_back("sdfat");
 #endif
     cmd.push_back("-o");
     cmd.push_back(mountData);
