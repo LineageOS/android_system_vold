@@ -121,6 +121,10 @@ ifneq ($(TARGET_EXFAT_DRIVER),)
   full_src_files += fs/Exfat.cpp
 endif
 
+ifneq ($(TARGET_VFAT_DRIVER),)
+  vold_cflags += -DCONFIG_VFAT_DRIVER=\"$(TARGET_VFAT_DRIVER)\"
+endif
+
 include $(CLEAR_VARS)
 
 LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
