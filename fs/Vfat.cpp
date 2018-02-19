@@ -143,12 +143,20 @@ status_t Mount(const std::string& source, const std::string& target, bool ro,
             "utf8,uid=%d,gid=%d,fmask=%o,dmask=%o,shortname=mixed",
             ownerUid, ownerGid, permMask, permMask);
 
+#ifdef CONFIG_VFAT_DRIVER
+    rc = mount(c_source, c_target, CONFIG_VFAT_DRIVER, flags, mountData);
+#else
     rc = mount(c_source, c_target, "vfat", flags, mountData);
+#endif
 
     if (rc && errno == EROFS) {
         SLOGE("%s appears to be a read only filesystem - retrying mount RO", c_source);
         flags |= MS_RDONLY;
+#ifdef CONFIG_VFAT_DRIVER
+        rc = mount(c_source, c_target, CONFIG_VFAT_DRIVER, flags, mountData);
+#else
         rc = mount(c_source, c_target, "vfat", flags, mountData);
+#endif
     }
 
     if (rc == 0 && createLost) {
