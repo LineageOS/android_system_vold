@@ -119,6 +119,10 @@ ifneq ($(TARGET_EXFAT_DRIVER),)
   full_src_files += fs/Exfat.cpp
 endif
 
+ifneq ($(TARGET_VFAT_DRIVER),)
+  vold_cflags += -DCONFIG_VFAT_DRIVER=\"$(TARGET_VFAT_DRIVER)\"
+endif
+
 ifeq ($(TARGET_KERNEL_HAVE_NTFS),true)
   vold_cflags += -DCONFIG_KERNEL_HAVE_NTFS
 endif
