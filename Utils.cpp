@@ -542,6 +542,12 @@ bool IsFilesystemSupported(const std::string& fsType) {
     supported.append("fuse\tntfs\n"
                      "fuse\texfat\n");
 
+#ifdef CONFIG_VFAT_DRIVER
+    /* Add vfat if an vfat driver is present */
+    if (supported.find(CONFIG_VFAT_DRIVER "\n") != std::string::npos)
+        supported.append("nodev\tvfat\n");
+#endif
+
     return supported.find(fsType + "\n") != std::string::npos;
 }
 
