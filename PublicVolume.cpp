@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+#ifdef CONFIG_EXFAT_DRIVER
 #include "fs/Exfat.h"
+#endif
 #include "fs/Ext4.h"
 #include "fs/F2fs.h"
 #include "fs/Ntfs.h"
@@ -146,9 +148,12 @@ status_t PublicVolume::doMount() {
     }
 
     int ret = 0;
+#ifdef CONFIG_EXFAT_DRIVER
     if (mFsType == "exfat") {
         ret = exfat::Check(mDevPath);
-    } else if (mFsType == "ext4") {
+    } else
+#endif
+    if (mFsType == "ext4") {
         ret = ext4::Check(mDevPath, mRawPath, false);
     } else if (mFsType == "f2fs") {
         ret = f2fs::Check(mDevPath, false);
@@ -164,10 +169,13 @@ status_t PublicVolume::doMount() {
         return -EIO;
     }
 
+#ifdef CONFIG_EXFAT_DRIVER
     if (mFsType == "exfat") {
         ret = exfat::Mount(mDevPath, mRawPath, false, false, false,
                 AID_MEDIA_RW, AID_MEDIA_RW, 0007);
-    } else if (mFsType == "ext4") {
+    } else
+#endif
+    if (mFsType == "ext4") {
         ret = ext4::Mount(mDevPath, mRawPath, false, false, true, mMntOpts,
                 false, true);
     } else if (mFsType == "f2fs") {
@@ -303,8 +311,10 @@ status_t PublicVolume::doFormat(const std::string& fsType) {
     int ret = 0;
     if (fsType == "auto") {
         ret = vfat::Format(mDevPath, 0);
+#ifdef CONFIG_EXFAT_DRIVER
     } else if (fsType == "exfat") {
         ret = exfat::Format(mDevPath);
+#endif
     } else if (fsType == "ext4") {
         ret = ext4::Format(mDevPath, 0, mRawPath);
     } else if (fsType == "f2fs") {
