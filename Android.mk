@@ -7,7 +7,6 @@ common_src_files := \
 	NetlinkManager.cpp \
 	NetlinkHandler.cpp \
 	Process.cpp \
-	fs/Exfat.cpp \
 	fs/Ext4.cpp \
 	fs/F2fs.cpp \
 	fs/Ntfs.cpp \
@@ -94,6 +93,8 @@ endif
 
 ifneq ($(TARGET_EXFAT_DRIVER),)
   vold_cflags += -DCONFIG_EXFAT_DRIVER=\"$(TARGET_EXFAT_DRIVER)\"
+  mini_src_files += fs/Exfat.cpp
+  full_src_files += fs/Exfat.cpp
 endif
 
 include $(CLEAR_VARS)

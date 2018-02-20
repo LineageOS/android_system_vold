@@ -17,8 +17,14 @@
 #include "Exfat.h"
 #include "Utils.h"
 
+#define LOG_TAG "Vold"
+
 #include <android-base/logging.h>
 #include <android-base/stringprintf.h>
+
+#include <cutils/log.h>
+
+#include <logwrap/logwrap.h>
 
 #include <vector>
 #include <string>
@@ -34,25 +40,14 @@ namespace exfat {
 #ifdef MINIVOLD
 static const char* kMkfsPath = "/sbin/mkfs.exfat";
 static const char* kFsckPath = "/sbin/fsck.exfat";
-#ifdef CONFIG_KERNEL_HAVE_EXFAT
-static const char* kMountPath = "/sbin/mount";
-#else
-static const char* kMountPath = "/sbin/mount.exfat";
-#endif
 #else
 static const char* kMkfsPath = "/system/bin/mkfs.exfat";
 static const char* kFsckPath = "/system/bin/fsck.exfat";
-#ifdef CONFIG_EXFAT_DRIVER
-static const char* kMountPath = "/system/bin/mount";
-#else
-static const char* kMountPath = "/system/bin/mount.exfat";
-#endif
 #endif
 
 bool IsSupported() {
     return access(kMkfsPath, X_OK) == 0
             && access(kFsckPath, X_OK) == 0
-            && access(kMountPath, X_OK) == 0
             && IsFilesystemSupported("exfat");
 }
 
@@ -67,29 +62,32 @@ status_t Check(const std::string& source) {
 
 status_t Mount(const std::string& source, const std::string& target, bool ro,
         bool remount, bool executable, int ownerUid, int ownerGid, int permMask) {
+    int rc;
+    unsigned long flags;
     char mountData[255];
 
     const char* c_source = source.c_str();
     const char* c_target = target.c_str();
 
-    sprintf(mountData,
-            "noatime,nodev,nosuid,dirsync,uid=%d,gid=%d,fmask=%o,dmask=%o,%s,%s",
-            ownerUid, ownerGid, permMask, permMask,
-            (executable ? "exec" : "noexec"),
-            (ro ? "ro" : "rw"));
+    flags = MS_NODEV | MS_NOSUID | MS_DIRSYNC | MS_NOATIME;
 
-    std::vector<std::string> cmd;
-    cmd.push_back(kMountPath);
-#ifdef CONFIG_EXFAT_DRIVER
-    cmd.push_back("-t");
-    cmd.push_back(CONFIG_EXFAT_DRIVER);
-#endif
-    cmd.push_back("-o");
-    cmd.push_back(mountData);
-    cmd.push_back(c_source);
-    cmd.push_back(c_target);
+    flags |= (executable ? 0 : MS_NOEXEC);
+    flags |= (ro ? MS_RDONLY : 0);
+    flags |= (remount ? MS_REMOUNT : 0);
 
-    return ForkExecvp(cmd);
+    snprintf(mountData, sizeof(mountData),
+            "uid=%d,gid=%d,fmask=%o,dmask=%o",
+            ownerUid, ownerGid, permMask, permMask);
+
+    rc = mount(c_source, c_target, CONFIG_EXFAT_DRIVER, flags, mountData);
+
+    if (rc && errno == EROFS) {
+        SLOGE("%s appears to be a read only filesystem - retrying mount RO", c_source);
+        flags |= MS_RDONLY;
+        rc = mount(c_source, c_target, CONFIG_EXFAT_DRIVER, flags, mountData);
+    }
+
+    return rc;
 }
 
 status_t Format(const std::string& source) {
