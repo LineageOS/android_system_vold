@@ -60,13 +60,15 @@ status_t Mount(const std::string& source, const std::string& target, int ownerUi
     auto mountData = android::base::StringPrintf("uid=%d,gid=%d,fmask=%o,dmask=%o", ownerUid,
                                                  ownerGid, permMask, permMask);
 
-    if (mount(source.c_str(), target.c_str(), "exfat", mountFlags, mountData.c_str()) == 0) {
+    if (mount(source.c_str(), target.c_str(), CONFIG_EXFAT_DRIVER, mountFlags,
+            mountData.c_str()) == 0) {
         return 0;
     }
 
     PLOG(ERROR) << "Mount failed; attempting read-only";
     mountFlags |= MS_RDONLY;
-    if (mount(source.c_str(), target.c_str(), "exfat", mountFlags, mountData.c_str()) == 0) {
+    if (mount(source.c_str(), target.c_str(), CONFIG_EXFAT_DRIVER, mountFlags,
+            mountData.c_str()) == 0) {
         return 0;
     }
 

@@ -17,7 +17,9 @@
 #include "PublicVolume.h"
 #include "Utils.h"
 #include "VolumeManager.h"
+#ifdef CONFIG_EXFAT_DRIVER
 #include "fs/Exfat.h"
+#endif
 #include "fs/Vfat.h"
 
 #include <android-base/stringprintf.h>
@@ -101,11 +103,13 @@ status_t PublicVolume::doMount() {
             LOG(ERROR) << getId() << " failed filesystem check";
             return -EIO;
         }
+#ifdef CONFIG_EXFAT_DRIVER
     } else if (mFsType == "exfat" && exfat::IsSupported()) {
         if (exfat::Check(mDevPath)) {
             LOG(ERROR) << getId() << " failed filesystem check";
             return -EIO;
         }
+#endif
     } else {
         LOG(ERROR) << getId() << " unsupported filesystem " << mFsType;
         return -EIO;
@@ -141,11 +145,13 @@ status_t PublicVolume::doMount() {
             PLOG(ERROR) << getId() << " failed to mount " << mDevPath;
             return -EIO;
         }
+#ifdef CONFIG_EXFAT_DRIVER
     } else if (mFsType == "exfat") {
         if (exfat::Mount(mDevPath, mRawPath, AID_MEDIA_RW, AID_MEDIA_RW, 0007)) {
             PLOG(ERROR) << getId() << " failed to mount " << mDevPath;
             return -EIO;
         }
+#endif
     }
 
     if (getMountFlags() & MountFlags::kPrimary) {
@@ -259,6 +265,7 @@ status_t PublicVolume::doFormat(const std::string& fsType) {
             LOG(ERROR) << getId() << " failed to format";
             return -errno;
         }
+#ifdef CONFIG_EXFAT_DRIVER
     } else if ((fsType == "exfat" || fsType == "auto") && exfat::IsSupported()) {
         if (WipeBlockDevice(mDevPath) != OK) {
             LOG(WARNING) << getId() << " failed to wipe";
@@ -267,6 +274,7 @@ status_t PublicVolume::doFormat(const std::string& fsType) {
             LOG(ERROR) << getId() << " failed to format";
             return -errno;
         }
+#endif
     } else {
         LOG(ERROR) << "Unsupported filesystem " << fsType;
         return -EINVAL;

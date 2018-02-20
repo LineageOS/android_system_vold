@@ -116,7 +116,6 @@ cc_library_static {
         "VoldUtil.cpp",
         "VolumeManager.cpp",
         "cryptfs.cpp",
-        "fs/Exfat.cpp",
         "fs/Ext4.cpp",
         "fs/F2fs.cpp",
         "fs/Vfat.cpp",
@@ -136,6 +135,12 @@ cc_library_static {
             static_libs: [
                 "arc_services_aidl",
                 "libarcobbvolume",
+            ],
+        },
+        target_exfat_driver : {
+            cflags: ["-DCONFIG_EXFAT_DRIVER=\"%s\""],
+            srcs: [
+                "fs/Exfat.cpp",
             ],
         },
     },
