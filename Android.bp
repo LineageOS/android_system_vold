@@ -140,6 +140,11 @@ cc_library_static {
                 "libarcobbvolume",
             ],
         },
+        lineage: {
+            target_exfat_driver : {
+                cflags: ["-DCONFIG_EXFAT_DRIVER=\"%s\""],
+            },
+        },
     },
 }
 
