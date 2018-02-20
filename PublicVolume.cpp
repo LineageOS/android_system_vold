@@ -121,7 +121,7 @@ status_t PublicVolume::doMount() {
     }
 
 #ifdef MINIVOLD
-    // In recovery, directly mount to /storage/* since we have no fuse daemon
+    // In recovery, directly mount to /storage/foo since we have no fuse daemon
     mRawPath = StringPrintf("/storage/%s", stableName.c_str());
     mFuseDefault = StringPrintf("/storage/%s", stableName.c_str());
     mFuseRead = StringPrintf("/storage/%s", stableName.c_str());
