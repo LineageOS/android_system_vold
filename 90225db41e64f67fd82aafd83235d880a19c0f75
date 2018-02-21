@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc735db4_0493f3e9",
+        "filename": "PublicVolume.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 13648
+      },
+      "writtenOn": "2018-02-21T08:40:20Z",
+      "side": 1,
+      "message": "Couldn\u0027t you move this block bellow? It would simply turn to:\n\n#ifdef CONFIG_EXFAT_DRIVER\n    } else if (mFsType \u003d\u003d \"exfat\") {\n        ret \u003d exfat::Check(mDevPath);\n#endif",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 37
+      },
+      "revId": "90225db41e64f67fd82aafd83235d880a19c0f75",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
