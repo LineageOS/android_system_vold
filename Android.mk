@@ -64,7 +64,6 @@ common_libraries := \
 
 common_shared_libraries := \
 	$(common_libraries) \
-	libf2fs_sparseblock \
 	libhardware_legacy \
 	libext4_utils \
 	libcrypto \
@@ -80,7 +79,7 @@ common_static_libraries := \
 	libfec \
 	libfec_rs \
 	libext4_utils \
-	libf2fs_sparseblock_static \
+	libf2fs_sparseblock \
 	libsparse \
 	libsquashfs_utils \
 	libscrypt_static \
