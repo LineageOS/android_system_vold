@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15e35526_7c16144c",
+        "filename": "Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 11801
+      },
+      "writtenOn": "2018-02-25T16:42:48Z",
+      "side": 1,
+      "message": "\"driver\", not \"sdfat\"",
+      "revId": "709c35abe95c8f4fabf3dcb3b525a62ec64d9fb7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1b75de0_1599b8d3",
+        "filename": "Utils.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 11801
+      },
+      "writtenOn": "2018-02-25T16:42:48Z",
+      "side": 1,
+      "message": "should we also check if exfat is also not already reported?",
+      "revId": "709c35abe95c8f4fabf3dcb3b525a62ec64d9fb7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
