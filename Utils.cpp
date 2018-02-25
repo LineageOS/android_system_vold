@@ -550,6 +550,10 @@ bool IsFilesystemSupported(const std::string& fsType) {
     supported.append("fuse\tntfs\n"
                      "fuse\texfat\n");
 
+    /* Add exfat if sdfat is present */
+    if (supported.find("sdfat" + "\n") != std::string::npos)
+        supported.append("nodev\texfat\n");
+
     return supported.find(fsType + "\n") != std::string::npos;
 }
 
