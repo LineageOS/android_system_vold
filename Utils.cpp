@@ -23,8 +23,6 @@
 #include <android-base/logging.h>
 #include <android-base/properties.h>
 #include <android-base/stringprintf.h>
-#include "fs/Exfat.h"
-#include "fs/Ntfs.h"
 
 #include <cutils/fs.h>
 #include <logwrap/logwrap.h>
