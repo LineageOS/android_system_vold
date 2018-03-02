@@ -121,6 +121,10 @@ ifneq ($(TARGET_EXFAT_DRIVER),)
   full_src_files += fs/Exfat.cpp
 endif
 
+ifneq ($(TARGET_REMOVE_SECDISCARD_COMMAND),)
+  vold_cflags += -DREMOVE_SECDISCARD_COMMAND
+endif
+
 include $(CLEAR_VARS)
 
 LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
