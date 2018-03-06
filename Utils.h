@@ -23,8 +23,11 @@
 #include <cutils/multiuser.h>
 #include <selinux/selinux.h>
 
+#include <chrono>
 #include <vector>
 #include <string>
+
+using namespace std::chrono_literals;
 
 // DISALLOW_COPY_AND_ASSIGN disallows the copy and operator= functions. It goes in the private:
 // declarations in a class.
@@ -127,6 +130,9 @@ dev_t GetDevice(const std::string& path);
 status_t RestoreconRecursive(const std::string& path);
 
 status_t SaneReadLinkAt(int dirfd, const char* path, char* buf, size_t bufsiz);
+
+bool WaitForFile(const std::string& filename,
+        const std::chrono::milliseconds relativeTimeout);
 
 /* Checks if Android is running in QEMU */
 bool IsRunningInEmulator();

@@ -39,6 +39,7 @@
 #include <sys/sysmacros.h>
 #include <sys/wait.h>
 #include <sys/statvfs.h>
+#include <thread>
 
 #ifndef UMOUNT_NOFOLLOW
 #define UMOUNT_NOFOLLOW    0x00000008  /* Don't follow symlink on umount */
@@ -702,6 +703,23 @@ status_t SaneReadLinkAt(int dirfd, const char* path, char* buf, size_t bufsiz) {
     } else {
         buf[len] = '\0';
         return 0;
+    }
+}
+
+bool WaitForFile(const std::string& filename,
+        const std::chrono::milliseconds relativeTimeout) {
+    auto startTime = std::chrono::steady_clock::now();
+
+    while (true) {
+        if (!access(filename.c_str(), F_OK) || errno != ENOENT) {
+            return true;
+        }
+
+        std::this_thread::sleep_for(50ms);
+
+        auto now = std::chrono::steady_clock::now();
+        auto timeElapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - startTime);
+        if (timeElapsed > relativeTimeout) return false;
     }
 }
 
