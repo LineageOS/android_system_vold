@@ -34,6 +34,24 @@
       "revId": "13c12850c2d7dd5b240fc67459ac4be7066d9dbe",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2a841b6_f43f46ea",
+        "filename": "Utils.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5503
+      },
+      "writtenOn": "2018-03-06T17:03:41Z",
+      "side": 1,
+      "message": "That\u0027s... unusual.  I\u0027d still prefer to place it in the cpp file though, unless it\u0027s actually needed in the h file.",
+      "parentUuid": "4656b3f5_dd0a0d33",
+      "revId": "13c12850c2d7dd5b240fc67459ac4be7066d9dbe",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
