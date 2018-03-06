@@ -16,6 +16,24 @@
       "revId": "13c12850c2d7dd5b240fc67459ac4be7066d9dbe",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4656b3f5_dd0a0d33",
+        "filename": "Utils.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 10067
+      },
+      "writtenOn": "2018-03-06T16:59:40Z",
+      "side": 1,
+      "message": "They do that here https://github.com/LineageOS/android_system_core/blob/lineage-15.1/fs_mgr/fs_mgr_priv.h#L116",
+      "parentUuid": "10f367d6_5084297a",
+      "revId": "13c12850c2d7dd5b240fc67459ac4be7066d9dbe",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
