@@ -128,6 +128,9 @@ status_t RestoreconRecursive(const std::string& path);
 
 status_t SaneReadLinkAt(int dirfd, const char* path, char* buf, size_t bufsiz);
 
+time_t GetTime();
+int WaitForFile(const std::string& filename, int timeout);
+
 /* Checks if Android is running in QEMU */
 bool IsRunningInEmulator();
 

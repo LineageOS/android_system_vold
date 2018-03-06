@@ -194,6 +194,11 @@ status_t PrivateVolume::doFormat(const std::string& fsType) {
         LOG(DEBUG) << "Resolved auto to " << resolvedFsType;
     }
 
+    if (WaitForFile(mDmDevPath, 15) < 0) {
+        PLOG(ERROR) << "Timed out waiting for " << getId();
+        return -EIO;
+    }
+
     if (resolvedFsType == "ext4") {
         // TODO: change reported mountpoint once we have better selinux support
         if (ext4::Format(mDmDevPath, 0, "/data")) {

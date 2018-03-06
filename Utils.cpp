@@ -705,6 +705,31 @@ status_t SaneReadLinkAt(int dirfd, const char* path, char* buf, size_t bufsiz) {
     }
 }
 
+time_t GetTime() {
+    struct timespec ts;
+    int ret;
+
+    ret = clock_gettime(CLOCK_MONOTONIC, &ts);
+    if (ret < 0) {
+        PLOG(ERROR) << "clock_gettime(CLOCK_MONOTONIC) failed";
+        return 0;
+    }
+
+    return ts.tv_sec;
+}
+
+int WaitForFile(const std::string& filename, int timeout) {
+    struct stat info;
+    time_t timeoutTime = GetTime() + timeout;
+    int ret = -1;
+
+    while (GetTime() < timeoutTime && ((ret = stat(filename.c_str(), &info)) < 0)) {
+        usleep(10000);
+    }
+
+    return ret;
+}
+
 bool IsRunningInEmulator() {
     return android::base::GetBoolProperty("ro.kernel.qemu", false);
 }
