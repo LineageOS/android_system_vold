@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e34dffca_377cd90e",
+        "filename": "Utils.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2018-03-06T15:59:49Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this just be an anonymous helper function?",
+      "range": {
+        "startLine": 708,
+        "startChar": 7,
+        "endLine": 708,
+        "endChar": 14
+      },
+      "revId": "1793982316f4a22d04dac48a4a1ca93b9294ccf4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76683b2e_06b7480a",
+        "filename": "Utils.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2018-03-06T15:59:49Z",
+      "side": 1,
+      "message": "As an aside, sometimes I feel like we should do a sleep delay loop template class/function and put it into a common lib or something.",
+      "range": {
+        "startLine": 726,
+        "startChar": 0,
+        "endLine": 728,
+        "endChar": 5
+      },
+      "revId": "1793982316f4a22d04dac48a4a1ca93b9294ccf4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
