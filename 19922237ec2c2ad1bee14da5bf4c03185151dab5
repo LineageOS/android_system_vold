@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c87ae6ff_4d0a8c98",
+        "filename": "Disk.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 17401
+      },
+      "writtenOn": "2018-03-19T17:11:25Z",
+      "side": 1,
+      "message": "if i read the linked commit right then .../mmc_block/...\nis the deprecated one, in that case you should swap the values around",
+      "revId": "19922237ec2c2ad1bee14da5bf4c03185151dab5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
