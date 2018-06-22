@@ -50,6 +50,10 @@
 #include "Utils.h"
 #include "VoldUtil.h"
 
+#ifdef MINIVOLD
+extern "C" int e2fsck_main(int argc, char** argv);
+#endif
+
 using android::base::StringPrintf;
 
 namespace android {
@@ -127,7 +131,11 @@ status_t Check(const std::string& source, const std::string& target, bool truste
         cmd.push_back("-y");
         cmd.push_back(c_source);
 
+#ifdef MINIVOLD
+        return ForkCallp(e2fsck_main, cmd);
+#else
         return ForkExecvp(cmd, trusted ? sFsckContext : sFsckUntrustedContext);
+#endif
     }
 
     return 0;
