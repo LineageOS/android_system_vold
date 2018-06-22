@@ -14,8 +14,26 @@
  * limitations under the License.
  */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
 #include "vold.h"
+#include "minivold_cmds.h"
 
 int main(int argc, char **argv) {
+    // Handle alternative invocations
+    char* command = argv[0];
+    char* stripped = strrchr(argv[0], '/');
+    if (stripped)
+        command = stripped + 1;
+    if (strcmp(command, "minivold") != 0) {
+        struct minivold_cmd cmd = get_command(command);
+        if (cmd.name)
+            return cmd.main_func(argc, argv);
+        fprintf(stderr, "Unhandled command %s\n", command);
+        return 1;
+    }
+
     return vold_main(argc, argv);
 }
