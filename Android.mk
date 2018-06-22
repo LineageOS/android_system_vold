@@ -230,6 +230,67 @@ LOCAL_PACK_MODULE_RELOCATIONS := false
 LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
 LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
 LOCAL_MODULE_TAGS := optional
+
+# Includes for FS tools
+LOCAL_C_INCLUDES += system/extras/ext4_utils system/core/fs_mgr/include external/fsck_msdos
+
+# Libraries for FS tools
+LOCAL_WHOLE_STATIC_LIBRARIES += \
+    libfuse_static
+
+ifneq ($(TARGET_EXFAT_DRIVER),)
+LOCAL_CFLAGS += -DWITH_EXFAT
+LOCAL_WHOLE_STATIC_LIBRARIES += \
+    libexfat_static \
+    libexfat_fsck_static \
+    libexfat_mkfs_static
+endif
+
+LOCAL_WHOLE_STATIC_LIBRARIES += \
+    libntfs-3g_static \
+    libntfs3g_fsck_static \
+    libntfs3g_mkfs_main \
+    libntfs3g_mount_static
+
+LOCAL_WHOLE_STATIC_LIBRARIES += \
+    libext2fs \
+    libe2fsck \
+    libmke2fs \
+    libresize2fs \
+    libtune2fs \
+    libsparse
+
+LOCAL_WHOLE_STATIC_LIBRARIES += \
+    libf2fs \
+    libf2fs_fsck \
+    libf2fs_mkfs
+
+LOCAL_WHOLE_STATIC_LIBRARIES += \
+    libsgdisk_static
+
+LOCAL_STATIC_LIBRARIES += \
+    libext2_blkid \
+    libext2_uuid \
+    libext2_profile \
+    libext2_quota \
+    libext2_com_err \
+    libext2_e2p \
+    libc++_static \
+    libz
+
+FILESYSTEM_TOOLS := \
+    e2fsck mke2fs resize2fs tune2fs fsck.ext4 mkfs.ext4 \
+    fsck.ntfs mkfs.ntfs mount.ntfs \
+    mkfs.f2fs fsck.f2fs \
+    sgdisk
+
+ifneq ($(TARGET_EXFAT_DRIVER),)
+FILESYSTEM_TOOLS += \
+    fsck.exfat mkfs.exfat
+endif
+
+LOCAL_POST_INSTALL_CMD := $(hide) $(foreach t,$(FILESYSTEM_TOOLS),ln -sf ${LOCAL_MODULE} $(LOCAL_MODULE_PATH)/$(t);)
+
 include $(BUILD_EXECUTABLE)
 
 include $(LOCAL_PATH)/tests/Android.mk
