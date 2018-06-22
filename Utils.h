@@ -87,6 +87,9 @@ status_t ForkExecvp(const std::vector<std::string>& args,
 
 pid_t ForkExecvpAsync(const std::vector<std::string>& args);
 
+typedef int (*fork_call_func)(int argc, char** argv);
+status_t ForkCallp(fork_call_func func, const std::vector<std::string>& args);
+
 status_t ReadRandomBytes(size_t bytes, std::string& out);
 status_t ReadRandomBytes(size_t bytes, char* buffer);
 status_t GenerateRandomUuid(std::string& out);

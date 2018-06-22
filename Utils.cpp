@@ -299,6 +299,36 @@ status_t ForkExecvp(const std::vector<std::string>& args, security_context_t con
     return res;
 }
 
+status_t ForkCallp(fork_call_func func, const std::vector<std::string>& args) {
+    size_t argc = args.size();
+    char** argv = (char**) calloc(argc, sizeof(char*));
+    for (size_t i = 0; i < argc; i++) {
+        argv[i] = (char*) args[i].c_str();
+        if (i == 0) {
+            LOG(VERBOSE) << args[i];
+        } else {
+            LOG(VERBOSE) << "    " << args[i];
+        }
+    }
+
+    // For now, don't bother to redirect child stdout/stderr or setup signal handling
+    pid_t pid = fork();
+    if (pid < 0) {
+        LOG(ERROR) << "Failed to fork";
+        abort();
+    }
+    if (pid == 0) {
+        optind = 1;
+        exit(func(argc, argv));
+    }
+    int status;
+    if (TEMP_FAILURE_RETRY(waitpid(pid, &status, 0)) < 0) {
+        status = errno;
+        LOG(ERROR) << "waitpid failed with " << strerror(errno);
+    }
+    return status;
+}
+
 status_t ForkExecvp(const std::vector<std::string>& args,
         std::vector<std::string>& output) {
     return ForkExecvp(args, output, nullptr);
