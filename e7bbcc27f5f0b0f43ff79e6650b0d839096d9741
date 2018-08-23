@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97ce0b2d_84ef68e1",
+        "filename": "main.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 14403
+      },
+      "writtenOn": "2018-08-23T18:06:00Z",
+      "side": 1,
+      "message": "missing one \u0027)\u0027",
+      "range": {
+        "startLine": 253,
+        "startChar": 38,
+        "endLine": 253,
+        "endChar": 43
+      },
+      "revId": "e7bbcc27f5f0b0f43ff79e6650b0d839096d9741",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6a985c0_e3cf0416",
+        "filename": "model/DiskPartition.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 14403
+      },
+      "writtenOn": "2018-08-23T18:06:00Z",
+      "side": 1,
+      "message": "response code and notifyevent was deleted by https://github.com/LineageOS/android_system_vold/commit/cbe69fc060d021be972af44904dd76ed1aa2a5a2#diff-35abbe7191ddde227f71a78e49534490",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 25
+      },
+      "revId": "e7bbcc27f5f0b0f43ff79e6650b0d839096d9741",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27c051e3_871430c7",
+        "filename": "model/DiskPartition.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 14403
+      },
+      "writtenOn": "2018-08-23T18:06:00Z",
+      "side": 1,
+      "message": "response code and notifyevent was deleted by https://github.com/LineageOS/android_system_vold/commit/cbe69fc060d021be972af44904dd76ed1aa2a5a2#diff-35abbe7191ddde227f71a78e49534490",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 71
+      },
+      "revId": "e7bbcc27f5f0b0f43ff79e6650b0d839096d9741",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e7106e0_d9ee01d5",
+        "filename": "model/DiskPartition.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 14403
+      },
+      "writtenOn": "2018-08-23T18:06:00Z",
+      "side": 1,
+      "message": "response code and notifyevent was deleted by https://github.com/LineageOS/android_system_vold/commit/cbe69fc060d021be972af44904dd76ed1aa2a5a2#diff-35abbe7191ddde227f71a78e49534490",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 28
+      },
+      "revId": "e7bbcc27f5f0b0f43ff79e6650b0d839096d9741",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
