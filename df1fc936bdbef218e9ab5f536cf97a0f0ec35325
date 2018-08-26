@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a32ddec9_41926d82",
+        "filename": "Android.bp",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 14403
+      },
+      "writtenOn": "2018-08-26T23:04:55Z",
+      "side": 1,
+      "message": "you need to specify a lineage product_variables for build process",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 10
+      },
+      "revId": "df1fc936bdbef218e9ab5f536cf97a0f0ec35325",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
