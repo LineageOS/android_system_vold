@@ -22,6 +22,52 @@
       "revId": "df1fc936bdbef218e9ab5f536cf97a0f0ec35325",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbe8ef06_bc2f81e6",
+        "filename": "Utils.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 15173
+      },
+      "writtenOn": "2018-08-27T12:55:31Z",
+      "side": 1,
+      "message": "(After fixing Android.bp) This will ALWAYS be true, if only an empty string.",
+      "range": {
+        "startLine": 567,
+        "startChar": 7,
+        "endLine": 567,
+        "endChar": 26
+      },
+      "revId": "df1fc936bdbef218e9ab5f536cf97a0f0ec35325",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5acdf88_e6f78951",
+        "filename": "fs/Exfat.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 15173
+      },
+      "writtenOn": "2018-08-27T12:55:31Z",
+      "side": 1,
+      "message": "Same",
+      "range": {
+        "startLine": 36,
+        "startChar": 7,
+        "endLine": 36,
+        "endChar": 26
+      },
+      "revId": "df1fc936bdbef218e9ab5f536cf97a0f0ec35325",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
