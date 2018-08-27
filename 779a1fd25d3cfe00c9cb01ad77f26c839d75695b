@@ -34,6 +34,24 @@
       "revId": "779a1fd25d3cfe00c9cb01ad77f26c839d75695b",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0ee5914_338d4ba2",
+        "filename": "fs/Exfat.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 18836
+      },
+      "writtenOn": "2018-08-27T18:55:52Z",
+      "side": 1,
+      "message": "Some devices create an exfat alias of sdfat: https://review.lineageos.org/#/c/LineageOS/android_kernel_samsung_msm8974/+/208286/\nThough they\u0027ll be essentially mounting sdfat eitherways, mounting exfat keeps with the default behavior and the expected outcome of creating such aliases.",
+      "parentUuid": "796af8de_661c1a07",
+      "revId": "779a1fd25d3cfe00c9cb01ad77f26c839d75695b",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
