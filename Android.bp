@@ -28,7 +28,7 @@ cc_defaults {
 
     static_libs: [
         "libavb",
-        "libbootloader_message",
+        "//bootable/recovery:libbootloader_message",
         "libfec",
         "libfec_rs",
         "libfs_mgr",
