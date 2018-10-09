@@ -2068,7 +2068,8 @@ static int persist_set_key(char *fieldname, char *value, int encrypted)
      */
     if (encrypted) {
         if(get_crypt_ftr_and_key(&crypt_ftr)) {
-            return -1;
+           /* Something is wrong, assume no space for entries */
+           return 0;
         }
         dsize = crypt_ftr.persist_data_size;
     } else {
