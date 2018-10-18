@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7ec4f8a_495b73a7",
+        "filename": "Android.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5503
+      },
+      "writtenOn": "2018-10-18T22:31:22Z",
+      "side": 1,
+      "message": "libbootloader_message is included indirectly via common_static_libraries.  Perhaps we should be adding this to all targets which use common_static_libraries?",
+      "revId": "9a4313dff63e5691b69d03bc5716a6e3fa6ef426",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
