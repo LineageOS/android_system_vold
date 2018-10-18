@@ -34,6 +34,24 @@
       "revId": "9a4313dff63e5691b69d03bc5716a6e3fa6ef426",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ada3e073_a7b9004d",
+        "filename": "Android.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5503
+      },
+      "writtenOn": "2018-10-18T22:50:21Z",
+      "side": 1,
+      "message": "This is true, technically.  But I was thinking of future changes where someone might include bootloader_message.h and wonder why the bootloader offset is not set properly.",
+      "parentUuid": "8022b384_b9ad95f3",
+      "revId": "9a4313dff63e5691b69d03bc5716a6e3fa6ef426",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
