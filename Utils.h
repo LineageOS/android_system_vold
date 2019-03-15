@@ -129,8 +129,6 @@ bool WaitForFile(const std::string& filename,
 /* Checks if Android is running in QEMU */
 bool IsRunningInEmulator();
 
-status_t WaitForFile(const char* filename, std::chrono::nanoseconds timeout);
-
 }  // namespace vold
 }  // namespace android
 
