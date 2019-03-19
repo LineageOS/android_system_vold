@@ -337,7 +337,7 @@ static int cryptfs_enable_inplace_ext4(const char* crypto_blkdev, const char* re
 
 errout:
     close(data.realfd);
-    if (!strncmp(real_blkdev, crypto_blkdev, strlen(real_blkdev)))
+    if (strncmp(real_blkdev, crypto_blkdev, strlen(real_blkdev)))
        close(data.cryptofd);
 
     return rc;
@@ -465,7 +465,7 @@ errout:
     free(f2fs_info);
     free(data.buffer);
     close(data.realfd);
-    if (!strncmp(real_blkdev, crypto_blkdev, strlen(real_blkdev)))
+    if (strncmp(real_blkdev, crypto_blkdev, strlen(real_blkdev)))
         close(data.cryptofd);
 
     return rc;
@@ -518,7 +518,7 @@ static int cryptfs_enable_inplace_full(const char* crypto_blkdev, const char* re
         goto errout;
     }
 
-    if (!strncmp(real_blkdev, crypto_blkdev, strlen(real_blkdev))) {
+    if (strncmp(real_blkdev, crypto_blkdev, strlen(real_blkdev))) {
         if (lseek64(cryptofd, i * CRYPT_SECTOR_SIZE, SEEK_SET) < 0) {
             PLOG(ERROR) << "Cannot seek to previously encrypted point on " << crypto_blkdev;
             goto errout;
@@ -586,7 +586,7 @@ static int cryptfs_enable_inplace_full(const char* crypto_blkdev, const char* re
 
 errout:
     close(realfd);
-    if (!strncmp(real_blkdev, crypto_blkdev, strlen(real_blkdev)))
+    if (strncmp(real_blkdev, crypto_blkdev, strlen(real_blkdev)))
         close(cryptofd);
 
     return rc;
