@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bceb73d_65d15e5a",
+        "filename": "cryptfs.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1269,
+      "author": {
+        "id": 13648
+      },
+      "writtenOn": "2019-07-11T06:47:51Z",
+      "side": 1,
+      "message": "system/vold/cryptfs.cpp:1269:12: error: unused function \u0027add_sector_size_param\u0027 [-Werror,-Wunused-function]\nstatic int add_sector_size_param(std::vector\u003cstd::string\u003e* extra_params_vec,\n           ^\n1 error generated.",
+      "range": {
+        "startLine": 1269,
+        "startChar": 11,
+        "endLine": 1269,
+        "endChar": 32
+      },
+      "revId": "b418d0c7a9d229a15f7f1cedd3ea136f56ce5be6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
