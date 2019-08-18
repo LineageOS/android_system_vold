@@ -38,6 +38,8 @@
 
 #include <private/android_filesystem_config.h>
 
+#include "cryptfs.h"
+
 static void usage(char *progname);
 
 static android::sp<android::IBinder> getServiceAggressive() {
@@ -59,6 +61,20 @@ static void checkStatus(android::binder::Status status) {
     if (status.isOk()) return;
     LOG(ERROR) << "Failed: " << status.toString8().string();
     exit(ENOTTY);
+}
+
+static int getType(const std::string &type) {
+    if (type == "default") {
+        return CRYPT_TYPE_DEFAULT;
+    } else if (type == "password") {
+        return CRYPT_TYPE_PASSWORD;
+    } else if (type == "pin") {
+        return CRYPT_TYPE_PIN;
+    } else if (type == "pattern") {
+        return CRYPT_TYPE_PATTERN;
+    } else {
+        return -1;
+    }
 }
 
 int main(int argc, char** argv) {
@@ -105,6 +121,9 @@ int main(int argc, char** argv) {
         checkStatus(vold->mountFstab(args[2]));
     } else if (args[0] == "cryptfs" && args[1] == "encryptFstab" && args.size() == 3) {
         checkStatus(vold->encryptFstab(args[2]));
+    } else if (args[0] == "cryptfs" && args[1] == "changepw" && args.size() == 5) {
+        int type = getType(args[2]);
+        checkStatus(vold->fdeChangePassword(type, args[3], args[4]));
     } else {
         LOG(ERROR) << "Raw commands are no longer supported";
         exit(EINVAL);
