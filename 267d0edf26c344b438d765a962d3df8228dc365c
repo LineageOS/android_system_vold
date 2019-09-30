@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5145461_20cb97a2",
+        "filename": "KeyStorage.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 20370
+      },
+      "writtenOn": "2019-09-30T04:58:24Z",
+      "side": 1,
+      "message": "system/vold/KeyStorage.h:22:10: fatal error: \u0027ext4_utils/ext4_crypt.h\u0027 file not found\n\nThis line needs to be changed to\n\n#include \u003cfscrypt/fscrypt.h\u003e\n\nbecause of this commit which moved the header:\nhttps://github.com/LineageOS/android_system_extras/commit/b46c3591e1e2b091d0fb727715a8d617dfc80aa6",
+      "revId": "267d0edf26c344b438d765a962d3df8228dc365c",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
