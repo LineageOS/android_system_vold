@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0206bda6_18d997f9",
+        "filename": "FsCrypt.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2019-11-09T19:15:06Z",
+      "side": 1,
+      "message": "Yes",
+      "revId": "7be425309a1d7123988fd5fc6b78c02ca8f3d99e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
