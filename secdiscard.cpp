@@ -82,7 +82,7 @@ int main(int argc, const char * const argv[]) {
             return 0;
         }
         __u32 set = 1;
-        ioctl(fd, F2FS_IOC_SET_PIN_FILE, &set);
+//        ioctl(fd, F2FS_IOC_SET_PIN_FILE, &set);
 
         LOG(DEBUG) << "Securely discarding '" << target << "' unlink=" << options.unlink;
         if (!secdiscard_path(target)) {
@@ -94,7 +94,7 @@ int main(int argc, const char * const argv[]) {
             }
         }
         set = 0;
-        ioctl(fd, F2FS_IOC_SET_PIN_FILE, &set);
+//        ioctl(fd, F2FS_IOC_SET_PIN_FILE, &set);
         LOG(DEBUG) << "Discarded: " << target;
     }
     return 0;
