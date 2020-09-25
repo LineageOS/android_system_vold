@@ -36,6 +36,8 @@
 #include "Utils.h"
 #include "VoldUtil.h"
 
+static const int32_t KM_TAG_FBE_ICE = static_cast<int32_t>(7 << 28) | 16201;
+
 namespace android {
 namespace vold {
 
@@ -68,6 +70,12 @@ static bool generateV0WrappedStorageKey(KeyBuffer* key) {
     std::string key_temp;
     auto paramBuilder = km::AuthorizationSetBuilder().AesEncryptionKey(AES_KEY_BYTES * 8);
     paramBuilder.Authorization(km::TAG_STORAGE_KEY);
+
+    km::KeyParameter param1;
+    param1.tag = (km::Tag) (KM_TAG_FBE_ICE);
+    param1.value = km::KeyParameterValue::make<km::KeyParameterValue::boolValue>(true);
+    paramBuilder.push_back(param1);
+
     if (!keystore.generateKey(paramBuilder, &key_temp)) return false;
     *key = KeyBuffer(key_temp.size());
     memcpy(reinterpret_cast<void*>(key->data()), key_temp.c_str(), key->size());
@@ -267,7 +275,14 @@ bool installKey(const std::string& mountpoint, const EncryptionOptions& options,
             // A key for a v1 policy is specified by an arbitrary 8-byte
             // "descriptor", which must be provided by userspace.  We use the
             // first 8 bytes from the double SHA-512 of the key itself.
-            policy->key_raw_ref = generateKeyRef((const uint8_t*)key.data(), key.size());
+            if (options.key_type == KeyType::kHwWrappedV0) {
+                /* When wrapped key is supported, only the first 32 bytes are
+                   the same per boot. The second 32 bytes can change as the ephemeral
+                   key is different. */
+                policy->key_raw_ref = generateKeyRef((const uint8_t*)key.data(), key.size()/2);
+            } else {
+                policy->key_raw_ref = generateKeyRef((const uint8_t*)key.data(), key.size());
+            }
             if (!buildKeySpecifier(&arg->key_spec, *policy)) {
                 return false;
             }
