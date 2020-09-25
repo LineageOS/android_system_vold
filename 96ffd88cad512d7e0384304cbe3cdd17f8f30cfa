@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c90e5a9_fe903b70",
+        "filename": "vdc.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13648
+      },
+      "writtenOn": "2020-09-25T16:30:16Z",
+      "side": 1,
+      "message": "By the way, I had to put this here instead of the header include.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 73
+      },
+      "revId": "96ffd88cad512d7e0384304cbe3cdd17f8f30cfa",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
