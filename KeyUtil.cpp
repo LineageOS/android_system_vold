@@ -267,7 +267,10 @@ bool installKey(const std::string& mountpoint, const EncryptionOptions& options,
             // A key for a v1 policy is specified by an arbitrary 8-byte
             // "descriptor", which must be provided by userspace.  We use the
             // first 8 bytes from the double SHA-512 of the key itself.
-            policy->key_raw_ref = generateKeyRef((const uint8_t*)key.data(), key.size());
+            /* When wrapped key is supported, only the first 32 bytes are
+                the same per boot. The second 32 bytes can change as the ephemeral
+                key is different. */
+            policy->key_raw_ref = generateKeyRef((const uint8_t*)key.data(), key.size()/2);
             if (!buildKeySpecifier(&arg->key_spec, *policy)) {
                 return false;
             }
