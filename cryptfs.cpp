@@ -1310,8 +1310,8 @@ static int load_crypto_mapping_table(struct crypt_mnt_ftr* crypt_ftr,
 }
 
 static int create_crypto_blk_dev_hw(struct crypt_mnt_ftr* crypt_ftr, const unsigned char* master_key,
-                                 const char* real_blk_name, char* crypto_blk_name, const char* name,
-                                 uint32_t flags) {
+                                 const char* real_blk_name, std::string* crypto_blk_name,
+                                 const char* name, uint32_t flags) {
     char buffer[DM_CRYPT_BUF_SIZE];
     struct dm_ioctl* io;
     unsigned int minor;
@@ -1319,7 +1319,7 @@ static int create_crypto_blk_dev_hw(struct crypt_mnt_ftr* crypt_ftr, const unsig
     int err;
     int retval = -1;
     int version[3];
-    int load_count;
+    int load_count = 0;
     char encrypted_state[PROPERTY_VALUE_MAX] = {0};
     char progress[PROPERTY_VALUE_MAX] = {0};
     const char *extra_params;
@@ -1345,7 +1345,7 @@ static int create_crypto_blk_dev_hw(struct crypt_mnt_ftr* crypt_ftr, const unsig
         goto errout;
     }
     minor = (io->dev & 0xff) | ((io->dev >> 12) & 0xfff00);
-    snprintf(crypto_blk_name, MAXPATHLEN, "/dev/block/dm-%u", minor);
+    *crypto_blk_name = android::base::StringPrintf("/dev/block/dm-%u", minor);
 
     if(is_hw_disk_encryption((char*)crypt_ftr->crypto_type_name)) {
       /* Set fde_enabled if either FDE completed or in-progress */
@@ -1380,7 +1380,7 @@ static int create_crypto_blk_dev_hw(struct crypt_mnt_ftr* crypt_ftr, const unsig
     }
 
     /* Ensure the dm device has been created before returning. */
-    if (android::vold::WaitForFile(crypto_blk_name, 1s) < 0) {
+    if (android::vold::WaitForFile(crypto_blk_name->c_str(), 1s) < 0) {
         // WaitForFile generates a suitable log message
         goto errout;
     }
@@ -2108,7 +2108,6 @@ static int test_mount_hw_encrypted_fs(struct crypt_mnt_ftr* crypt_ftr,
 {
     /* Allocate enough space for a 256 bit key, but we may use less */
     unsigned char decrypted_master_key[32];
-    char crypto_blkdev_hw[MAXPATHLEN];
     std::string crypto_blkdev;
     std::string real_blkdev;
     unsigned int orig_failed_decrypt_count;
@@ -2130,7 +2129,7 @@ static int test_mount_hw_encrypted_fs(struct crypt_mnt_ftr* crypt_ftr,
             if (is_ice_enabled()) {
 #ifndef CONFIG_HW_DISK_ENCRYPT_PERF
                 if (create_crypto_blk_dev_hw(crypt_ftr, (unsigned char*)&key_index,
-                                          real_blkdev.c_str(), crypto_blkdev_hw, label, 0)) {
+                                          real_blkdev.c_str(), &crypto_blkdev, label, 0)) {
                     SLOGE("Error creating decrypted block device");
                     rc = -1;
                     goto errout;
@@ -2157,10 +2156,8 @@ static int test_mount_hw_encrypted_fs(struct crypt_mnt_ftr* crypt_ftr,
          * so we can mount it when restarting the framework. */
 #ifdef CONFIG_HW_DISK_ENCRYPT_PERF
         if (!is_ice_enabled())
-        property_set("ro.crypto.fs_crypto_blkdev", crypto_blkdev_hw);
-#else
-        property_set("ro.crypto.fs_crypto_blkdev", crypto_blkdev);
 #endif
+        property_set("ro.crypto.fs_crypto_blkdev", crypto_blkdev.c_str());
         master_key_saved = 1;
     }
 
