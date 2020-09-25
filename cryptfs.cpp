@@ -1319,7 +1319,7 @@ static int create_crypto_blk_dev_hw(struct crypt_mnt_ftr* crypt_ftr, const unsig
     int err;
     int retval = -1;
     int version[3];
-    int load_count;
+    int load_count = 0;
     char encrypted_state[PROPERTY_VALUE_MAX] = {0};
     char progress[PROPERTY_VALUE_MAX] = {0};
     const char *extra_params;
@@ -2159,7 +2159,7 @@ static int test_mount_hw_encrypted_fs(struct crypt_mnt_ftr* crypt_ftr,
         if (!is_ice_enabled())
         property_set("ro.crypto.fs_crypto_blkdev", crypto_blkdev_hw);
 #else
-        property_set("ro.crypto.fs_crypto_blkdev", crypto_blkdev);
+        property_set("ro.crypto.fs_crypto_blkdev", crypto_blkdev.c_str());
 #endif
         master_key_saved = 1;
     }
@@ -2644,6 +2644,7 @@ static int vold_unmountAll(void) {
 }
 
 int cryptfs_enable_internal(int crypt_type, const char* passwd, int no_ui) {
+    char crypto_blkdev_hw[MAXPATHLEN];
     std::string crypto_blkdev;
     std::string real_blkdev;
     unsigned char decrypted_master_key[MAX_KEY_LEN];
@@ -2913,7 +2914,7 @@ int cryptfs_enable_internal(int crypt_type, const char* passwd, int no_ui) {
 #ifdef CONFIG_HW_DISK_ENCRYPT_PERF
       crypto_blkdev = real_blkdev;
 #else
-      create_crypto_blk_dev_hw(&crypt_ftr, (unsigned char*)&key_index, real_blkdev.c_str(), &crypto_blkdev,
+      create_crypto_blk_dev_hw(&crypt_ftr, (unsigned char*)&key_index, real_blkdev.c_str(), crypto_blkdev_hw,
                           CRYPTO_BLOCK_DEVICE, 0);
 #endif
     else
