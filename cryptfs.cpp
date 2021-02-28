@@ -2137,8 +2137,8 @@ static int test_mount_hw_encrypted_fs(struct crypt_mnt_ftr* crypt_ftr,
                 }
 #endif
             } else {
-                if (create_crypto_blk_dev(crypt_ftr, decrypted_master_key,
-                                          real_blkdev.c_str(), &crypto_blkdev, label, 0)) {
+                if (create_crypto_blk_dev_hw(crypt_ftr, decrypted_master_key,
+					     real_blkdev.c_str(), &crypto_blkdev, label, 0)) {
                     SLOGE("Error creating decrypted block device");
                     rc = -1;
                     goto errout;
@@ -2918,7 +2918,7 @@ int cryptfs_enable_internal(int crypt_type, const char* passwd, int no_ui) {
                           CRYPTO_BLOCK_DEVICE, 0);
 #endif
     else
-      create_crypto_blk_dev(&crypt_ftr, decrypted_master_key, real_blkdev.c_str(), &crypto_blkdev,
+      create_crypto_blk_dev_hw(&crypt_ftr, (unsigned char*)&key_index, real_blkdev.c_str(), &crypto_blkdev,
                           CRYPTO_BLOCK_DEVICE, 0);
 #else
     create_crypto_blk_dev(&crypt_ftr, decrypted_master_key, real_blkdev.c_str(), &crypto_blkdev,
