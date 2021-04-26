@@ -132,22 +132,30 @@ status_t PublicVolume::doMount() {
     }
 
     int ret = 0;
-    if (mFsType == "exfat") {
-        ret = exfat::Check(mDevPath);
-    } else if (mFsType == "ext4") {
-        ret = ext4::Check(mDevPath, mRawPath, false);
-    } else if (mFsType == "f2fs") {
-        ret = f2fs::Check(mDevPath, false);
-    } else if (mFsType == "ntfs") {
-        ret = ntfs::Check(mDevPath);
-    } else if (mFsType == "vfat") {
-        ret = vfat::Check(mDevPath);
-    } else {
-        LOG(WARNING) << getId() << " unsupported filesystem check, skipping";
+    if (android::base::GetProperty("persist.vold.skip_fs_checks", "0") == "1") {
+        LOG(WARNING)
+            << "Skipping filesystem check for "
+            << mDevPath
+            <<" since persist.vold.skip_fs_checks is 1";
     }
-    if (ret) {
-        LOG(ERROR) << getId() << " failed filesystem check";
-        return -EIO;
+    else {
+        if (mFsType == "exfat") {
+            ret = exfat::Check(mDevPath);
+        } else if (mFsType == "ext4") {
+            ret = ext4::Check(mDevPath, mRawPath, false);
+        } else if (mFsType == "f2fs") {
+            ret = f2fs::Check(mDevPath, false);
+        } else if (mFsType == "ntfs") {
+            ret = ntfs::Check(mDevPath);
+        } else if (mFsType == "vfat") {
+            ret = vfat::Check(mDevPath);
+        } else {
+            LOG(WARNING) << getId() << " unsupported filesystem check, skipping";
+        }
+        if (ret) {
+            LOG(ERROR) << getId() << " failed filesystem check";
+            return -EIO;
+        }
     }
 
     if (mFsType == "exfat") {
