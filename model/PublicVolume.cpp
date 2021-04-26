@@ -132,7 +132,12 @@ status_t PublicVolume::doMount() {
     }
 
     int ret = 0;
-    if (mFsType == "exfat") {
+    if (android::base::GetProperty("persist.vold.enable_fs_checks", "0") == "0") {
+        LOG(INFO)
+            << "Skipping filesystem check for "
+            << mDevPath
+            <<" since persist.vold.enable_fs_checks is 0";
+    } else if (mFsType == "exfat") {
         ret = exfat::Check(mDevPath);
     } else if (mFsType == "ext4") {
         ret = ext4::Check(mDevPath, mRawPath, false);
