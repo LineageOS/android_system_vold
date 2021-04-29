@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e4c3585_f8c03a42",
+        "filename": "model/PublicVolume.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2021-04-29T13:49:59Z",
+      "side": 1,
+      "message": "instead of changing the indendation on the whole block, just make the first check (L#142 in the PS) an \"else if\". That way you don\u0027t have to change the whole block",
+      "revId": "dc7e5c98d165e5edd10688a3a33f494f4890a89e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
