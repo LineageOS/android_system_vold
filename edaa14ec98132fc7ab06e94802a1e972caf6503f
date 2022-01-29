@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46a17f0a_b183e49d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8752
+      },
+      "writtenOn": "2022-01-29T12:24:07Z",
+      "side": 1,
+      "message": "Left out the patches for EncryptInplace, since this class was heavily refactored.\nMaybe we don\u0027t need the optimizations there?",
+      "revId": "edaa14ec98132fc7ab06e94802a1e972caf6503f",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
