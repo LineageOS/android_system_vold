@@ -16,6 +16,23 @@
       "message": "Left out the patches for EncryptInplace, since this class was heavily refactored.\nMaybe we don\u0027t need the optimizations there?",
       "revId": "edaa14ec98132fc7ab06e94802a1e972caf6503f",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a0a68be_9013d03a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8752
+      },
+      "writtenOn": "2022-02-09T21:39:42Z",
+      "side": 1,
+      "message": "Current state: (1) Device is running well, when using an LOS18.1 encrypted partition.\n(2) Device is running semi-well when performing an fresh encryption. Safe start works with lockpattern, etc.\n    BUT: TWRP recovery isn\u0027t able to decrypt data partition. Seeing into the logs, I can see the following, which is maybe related to:\n\n```\n01-31 22:55:23.601   491   491 E keymaster1_device: Begin send cmd failed\n01-31 22:55:23.602   491   491 E keymaster1_device: ret: 0\n01-31 22:55:23.602   491   491 E keymaster1_device: resp-\u003estatus: -11\n01-31 22:55:23.603   489   489 E keystore2: signCertificate: signCertWith failed. (Callback diagnosed: INCOMPATIBLE_PADDING_MODE)\n01-31 22:55:23.604   450   753 I Cryptfs : Using scrypt with keymaster for cryptfs KDF\n01-31 22:55:23.985   450   753 I Cryptfs : Signing safely-padded object\n01-31 22:55:23.989   491   491 E keymaster1_device: Begin send cmd failed\n01-31 22:55:23.989   491   491 E keymaster1_device: ret: 0\n01-31 22:55:23.989   491   491 E keymaster1_device: resp-\u003estatus: -54\n01-31 22:55:23.990   489   502 E keystore2: keystore2::error: In create_operation: Failed to begin operation.\n01-31 22:55:23.990   489   502 E keystore2: \n01-31 22:55:23.990   489   502 E keystore2: Caused by:\n01-31 22:55:23.990   489   502 E keystore2:     0: In upgrade_keyblob_if_required_with: Called closure failed.\n01-31 22:55:23.990   489   502 E keystore2:     1: Error::Km(ErrorCode(-54))\n01-31 22:55:23.991   450   753 E vold    : keystore2 Keystore createOperation returned service specific error: -54\n01-31 22:55:25.876   493   493 E QSEECOMAPI: SUCCESS::ioctl call to wipe the encryption key for usage 4 success with ret \u003d 0\n01-31 22:55:25.877   493   493 E vendor.qti.hardware.cryptfshw@1.0-impl-qti.qsee: SUCCESS::Qseecom call to wipe the encryption key for usage 4 success with ret \u003d 0\n01-31 22:55:25.877   450   753 I Cryptfs : Using scrypt with keymaster for cryptfs KDF\n01-31 22:55:26.250   450   753 I Cryptfs : Signing safely-padded object\n01-31 22:55:27.019   493   493 E QSEECOMAPI: SUCESS::ioctl call to create encryption key for usage 4 success with ret \u003d 0\n01-31 22:55:27.019   493   493 E vendor.qti.hardware.cryptfshw@1.0-impl-qti.qsee: SUCESS::Qseecom call to create encryption key for usage 4 success with ret \u003d 0\n01-31 22:55:27.025   450   753 D Cryptfs : Just triggered post_fs_data\n```",
+      "revId": "edaa14ec98132fc7ab06e94802a1e972caf6503f",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
