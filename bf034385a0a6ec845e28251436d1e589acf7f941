@@ -16,6 +16,24 @@
       "message": "What\u0027s up with the whole QCOM FDE topic?",
       "revId": "bf034385a0a6ec845e28251436d1e589acf7f941",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d3d41b5_096c37ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8752
+      },
+      "writtenOn": "2022-05-02T06:36:13Z",
+      "side": 1,
+      "message": "The changes of the whole topic are apllied here and they running fine.\nTested are:\n* Installation from scratch\n* Upgrading from 19.1\n\nSadly I need that for a msm8953 (kernel 4.9, bardock) device, since FDE was enabled when the device was introduced. So maybe it\u0027s the only one which will uses this.",
+      "parentUuid": "6bf1debf_5e7376e2",
+      "revId": "bf034385a0a6ec845e28251436d1e589acf7f941",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
