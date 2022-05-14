@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "784bf059_79a2f4da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2022-05-14T19:26:33Z",
+      "side": 1,
+      "message": "Chain verified on tegra atv using an ext4 sdcard",
+      "revId": "981e9b47b1a84be0c48a69f00212c664c604f8ef",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
