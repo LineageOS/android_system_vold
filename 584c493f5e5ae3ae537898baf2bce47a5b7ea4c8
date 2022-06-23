@@ -16,6 +16,23 @@
       "message": "Needs to review on 19 before merge on 18.",
       "revId": "584c493f5e5ae3ae537898baf2bce47a5b7ea4c8",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c9dbf9f_9582d372",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 23573
+      },
+      "writtenOn": "2022-06-23T22:31:02Z",
+      "side": 1,
+      "message": "ExFat support is missed: https://github.com/nitrogen-project/android_system_vold/commit/593e941ebbc926729f718f53f7293bbac5a63a84\nCould we add patch for ExFat into the chain or modify this change to fix ExFat support?",
+      "revId": "584c493f5e5ae3ae537898baf2bce47a5b7ea4c8",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
