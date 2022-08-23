@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f09f98aa_942ae99b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31605
+      },
+      "writtenOn": "2022-08-23T02:41:26Z",
+      "side": 1,
+      "message": "https://source.android.com/docs/core/architecture/android-kernel-file-system-support\n\nhttps://cloudblogs.microsoft.com/opensource/2019/08/28/exfat-linux-kernel/\n\nstates that exfat is natively licensed as part of the Linux Kernel now, as far as LOS is concerned exfat can ship to all devices regardless if the OEM licensed exfat or not.\n",
+      "revId": "16cbb8dbc85db045c359c40fc29deacfa5146386",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
