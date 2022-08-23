@@ -16,6 +16,23 @@
       "message": "https://source.android.com/docs/core/architecture/android-kernel-file-system-support\n\nhttps://cloudblogs.microsoft.com/opensource/2019/08/28/exfat-linux-kernel/\n\nstates that exfat is natively licensed as part of the Linux Kernel now, as far as LOS is concerned exfat can ship to all devices regardless if the OEM licensed exfat or not.\n",
       "revId": "16cbb8dbc85db045c359c40fc29deacfa5146386",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b4ca1dc_b41a5ca8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31605
+      },
+      "writtenOn": "2022-08-23T20:32:54Z",
+      "side": 1,
+      "message": "\u003e Patch Set 1:\n\u003e \n\u003e \u003e Patch Set 1:\n\u003e  \u003e \n\u003e  \u003e (1 comment)\n\u003e \n\u003e incorrect.\n\u003e \n\u003e if the device uses 5.10 (or whatever exfat was merged in) or newer, yes, it can.\n\u003e \n\u003e if it is an older kernel backporting the feature is _not_ covered by what the license allows.\n\nLOS20 would be using android 13. unless a specific kernel is being built separate from the android 13 base, all devices would utilize a 5.10 or newer kernel as that is what is part of the AOSP 13 codebase.",
+      "revId": "16cbb8dbc85db045c359c40fc29deacfa5146386",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
