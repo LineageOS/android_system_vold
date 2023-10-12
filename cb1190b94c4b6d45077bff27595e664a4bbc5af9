@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1931dd26_95e332fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19282
+      },
+      "writtenOn": "2023-10-12T10:52:16Z",
+      "side": 1,
+      "message": "Could we have a feature flag or something to allow turning off the external storage feature on build time?\n\nThis causes havoc with xTS, as it needs sepolicy changes to neverallow rules.",
+      "revId": "cb1190b94c4b6d45077bff27595e664a4bbc5af9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
