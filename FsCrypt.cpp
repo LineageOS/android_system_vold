@@ -603,7 +603,7 @@ bool fscrypt_init_user0() {
     // only prepare DE storage here, since user 0's CE key won't be installed
     // yet unless it was just created.  The framework will prepare the user's CE
     // storage later, once their CE key is installed.
-    if (!fscrypt_prepare_user_storage("", 0, 0, android::os::IVold::STORAGE_FLAG_DE)) {
+    if (!fscrypt_prepare_user_storage("", 0, android::os::IVold::STORAGE_FLAG_DE)) {
         LOG(ERROR) << "Failed to prepare user 0 storage";
         return false;
     }
@@ -613,14 +613,14 @@ bool fscrypt_init_user0() {
 }
 
 // Creates the CE and DE keys for a new user.
-bool fscrypt_create_user_keys(userid_t user_id, int serial, bool ephemeral) {
-    LOG(DEBUG) << "fscrypt_create_user_keys for " << user_id << " serial " << serial;
+bool fscrypt_create_user_keys(userid_t user_id, bool ephemeral) {
+    LOG(DEBUG) << "fscrypt_create_user_keys for " << user_id;
     if (!IsFbeEnabled()) {
         return true;
     }
     // FIXME test for existence of key that is not loaded yet
     if (s_ce_policies.count(user_id) != 0) {
-        LOG(ERROR) << "Already exists, can't create keys for " << user_id << " serial " << serial;
+        LOG(ERROR) << "Already exists, can't create keys for " << user_id;
         // FIXME should we fail the command?
         return true;
     }
@@ -847,8 +847,8 @@ std::vector<int> fscrypt_get_unlocked_users() {
 // Unlocks internal CE storage for the given user.  This only unlocks internal storage, since
 // fscrypt_prepare_user_storage() has to be called for each adoptable storage volume anyway (since
 // the volume might have been absent when the user was created), and that handles the unlocking.
-bool fscrypt_unlock_ce_storage(userid_t user_id, int serial, const std::string& secret_hex) {
-    LOG(DEBUG) << "fscrypt_unlock_ce_storage " << user_id << " serial=" << serial;
+bool fscrypt_unlock_ce_storage(userid_t user_id, const std::string& secret_hex) {
+    LOG(DEBUG) << "fscrypt_unlock_ce_storage " << user_id;
     if (!IsFbeEnabled()) return true;
     if (s_ce_policies.count(user_id) != 0) {
         LOG(WARNING) << "CE storage for user " << user_id << " is already unlocked";
@@ -883,10 +883,9 @@ static bool prepare_subdirs(const std::string& action, const std::string& volume
     return true;
 }
 
-bool fscrypt_prepare_user_storage(const std::string& volume_uuid, userid_t user_id, int serial,
-                                  int flags) {
+bool fscrypt_prepare_user_storage(const std::string& volume_uuid, userid_t user_id, int flags) {
     LOG(DEBUG) << "fscrypt_prepare_user_storage for volume " << escape_empty(volume_uuid)
-               << ", user " << user_id << ", serial " << serial << ", flags " << flags;
+               << ", user " << user_id << ", flags " << flags;
 
     // Internal storage must be prepared before adoptable storage, since the
     // user's volume keys are stored in their internal storage.
