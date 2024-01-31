@@ -504,6 +504,14 @@ binder::Status VoldNativeService::getStorageLifeTime(int32_t* _aidl_return) {
     return Ok();
 }
 
+binder::Status VoldNativeService::getStorageRemainingLifetime(int32_t* _aidl_return) {
+    ENFORCE_SYSTEM_OR_ROOT;
+    ACQUIRE_LOCK;
+
+    *_aidl_return = GetStorageRemainingLifetime();
+    return Ok();
+}
+
 binder::Status VoldNativeService::setGCUrgentPace(int32_t neededSegments,
                                                   int32_t minSegmentThreshold,
                                                   float dirtyReclaimRate, float reclaimWeight,
