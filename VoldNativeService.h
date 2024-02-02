@@ -89,6 +89,7 @@ class VoldNativeService : public BinderService<VoldNativeService>, public os::Bn
                                 const android::sp<android::os::IVoldTaskListener>& listener);
     binder::Status abortIdleMaint(const android::sp<android::os::IVoldTaskListener>& listener);
     binder::Status getStorageLifeTime(int32_t* _aidl_return);
+    binder::Status getStorageRemainingLifetime(int32_t* _aidl_return);
     binder::Status setGCUrgentPace(int32_t neededSegments, int32_t minSegmentThreshold,
                                    float dirtyReclaimRate, float reclaimWeight, int32_t gcPeriod,
                                    int32_t minGCSleepTime, int32_t targetDirtyRatio);
