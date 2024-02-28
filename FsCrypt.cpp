@@ -44,8 +44,6 @@
 
 #include "android/os/IVold.h"
 
-#define MANAGE_MISC_DIRS 0
-
 #include <cutils/fs.h>
 #include <cutils/properties.h>
 
@@ -907,7 +905,6 @@ bool fscrypt_prepare_user_storage(const std::string& volume_uuid, userid_t user_
     if (flags & android::os::IVold::STORAGE_FLAG_DE) {
         // DE_sys key
         auto system_legacy_path = android::vold::BuildDataSystemLegacyPath(user_id);
-        auto misc_legacy_path = android::vold::BuildDataMiscLegacyPath(user_id);
         auto profiles_de_path = android::vold::BuildDataProfilesDePath(user_id);
 
         // DE_n key
@@ -937,11 +934,6 @@ bool fscrypt_prepare_user_storage(const std::string& volume_uuid, userid_t user_
 
         if (volume_uuid.empty()) {
             if (!prepare_dir(system_legacy_path, 0700, AID_SYSTEM, AID_SYSTEM)) return false;
-#if MANAGE_MISC_DIRS
-            if (!prepare_dir(misc_legacy_path, 0750, multiuser_get_uid(user_id, AID_SYSTEM),
-                             multiuser_get_uid(user_id, AID_EVERYBODY)))
-                return false;
-#endif
             if (!prepare_dir(profiles_de_path, 0771, AID_SYSTEM, AID_SYSTEM)) return false;
 
             if (!prepare_dir_with_policy(system_de_path, 0770, AID_SYSTEM, AID_SYSTEM, de_policy))
@@ -1050,7 +1042,6 @@ bool fscrypt_destroy_user_storage(const std::string& volume_uuid, userid_t user_
     if (flags & android::os::IVold::STORAGE_FLAG_DE) {
         // DE_sys key
         auto system_legacy_path = android::vold::BuildDataSystemLegacyPath(user_id);
-        auto misc_legacy_path = android::vold::BuildDataMiscLegacyPath(user_id);
         auto profiles_de_path = android::vold::BuildDataProfilesDePath(user_id);
 
         // DE_n key
@@ -1063,9 +1054,6 @@ bool fscrypt_destroy_user_storage(const std::string& volume_uuid, userid_t user_
         res &= destroy_dir(misc_de_path);
         if (volume_uuid.empty()) {
             res &= destroy_dir(system_legacy_path);
-#if MANAGE_MISC_DIRS
-            res &= destroy_dir(misc_legacy_path);
-#endif
             res &= destroy_dir(profiles_de_path);
             res &= destroy_dir(system_de_path);
             res &= destroy_dir(vendor_de_path);
