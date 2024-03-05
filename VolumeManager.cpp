@@ -921,25 +921,34 @@ int VolumeManager::abortFuse() {
 int VolumeManager::reset() {
     // Tear down all existing disks/volumes and start from a blank slate so
     // newly connected framework hears all events.
+
+    // Destroy StubVolume disks. This needs to be done before destroying
+    // EmulatedVolumes because in ARC (Android on ChromeOS), ChromeOS Downloads
+    // directory (which is in a StubVolume) is bind-mounted to
+    // /data/media/0/Download.
+    // We do not recreate StubVolumes here because they are managed from outside
+    // Android (e.g. from ChromeOS) and their disk recreation on reset events
+    // should be handled from outside by calling createStubVolume() again.
+    for (const auto& disk : mDisks) {
+        if (disk->isStub()) {
+            disk->destroy();
+        }
+    }
+    // Remove StubVolume from both mDisks and mPendingDisks.
+    const auto isStub = [](const auto& disk) { return disk->isStub(); };
+    mDisks.remove_if(isStub);
+    mPendingDisks.remove_if(isStub);
+
     for (const auto& vol : mInternalEmulatedVolumes) {
         vol->destroy();
     }
     mInternalEmulatedVolumes.clear();
 
-    // Destroy and recreate all disks except that StubVolume disks are just
-    // destroyed and removed from both mDisks and mPendingDisks.
-    // StubVolumes are managed from outside Android (e.g. from Chrome OS) and
-    // their disk recreation on reset events should be handled from outside by
-    // calling createStubVolume() again.
+    // Destroy and recreate non-StubVolume disks.
     for (const auto& disk : mDisks) {
         disk->destroy();
-        if (!disk->isStub()) {
-            disk->create();
-        }
+        disk->create();
     }
-    const auto isStub = [](const auto& disk) { return disk->isStub(); };
-    mDisks.remove_if(isStub);
-    mPendingDisks.remove_if(isStub);
 
     updateVirtualDisk();
     mAddedUsers.clear();
@@ -958,11 +967,20 @@ int VolumeManager::shutdown() {
         return 0;  // already shutdown
     }
     android::vold::sSleepOnUnmount = false;
+    // Destroy StubVolume disks before destroying EmulatedVolumes (see the
+    // comment in VolumeManager::reset()).
+    for (const auto& disk : mDisks) {
+        if (disk->isStub()) {
+            disk->destroy();
+        }
+    }
     for (const auto& vol : mInternalEmulatedVolumes) {
         vol->destroy();
     }
     for (const auto& disk : mDisks) {
-        disk->destroy();
+        if (!disk->isStub()) {
+            disk->destroy();
+        }
     }
 
     mInternalEmulatedVolumes.clear();
@@ -978,11 +996,20 @@ int VolumeManager::unmountAll() {
     ATRACE_NAME("VolumeManager::unmountAll()");
 
     // First, try gracefully unmounting all known devices
+    // Unmount StubVolume disks before unmounting EmulatedVolumes (see the
+    // comment in VolumeManager::reset()).
+    for (const auto& disk : mDisks) {
+        if (disk->isStub()) {
+            disk->unmountAll();
+        }
+    }
     for (const auto& vol : mInternalEmulatedVolumes) {
         vol->unmount();
     }
     for (const auto& disk : mDisks) {
-        disk->unmountAll();
+        if (!disk->isStub()) {
+            disk->unmountAll();
+        }
     }
 
     // Worst case we might have some stale mounts lurking around, so
