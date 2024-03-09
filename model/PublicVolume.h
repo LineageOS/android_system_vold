@@ -43,6 +43,8 @@ class PublicVolume : public VolumeBase {
             const std::string& fstype = "");
     virtual ~PublicVolume();
 
+    status_t bindMountForUser(userid_t user_id);
+
   protected:
     status_t doCreate() override;
     status_t doDestroy() override;
