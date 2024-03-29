@@ -22,6 +22,7 @@ import android.os.IVoldMountCallback;
 import android.os.IVoldTaskListener;
 
 /** {@hide} */
+@SensitiveData
 interface IVold {
     void setListener(IVoldListener listener);
 
