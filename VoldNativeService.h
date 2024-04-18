@@ -116,10 +116,10 @@ class VoldNativeService : public BinderService<VoldNativeService>, public os::Bn
     binder::Status createUserStorageKeys(int32_t userId, bool ephemeral);
     binder::Status destroyUserStorageKeys(int32_t userId);
 
-    binder::Status setCeStorageProtection(int32_t userId, const std::string& secret);
+    binder::Status setCeStorageProtection(int32_t userId, const std::vector<uint8_t>& secret);
 
     binder::Status getUnlockedUsers(std::vector<int>* _aidl_return);
-    binder::Status unlockCeStorage(int32_t userId, const std::string& secret);
+    binder::Status unlockCeStorage(int32_t userId, const std::vector<uint8_t>& secret);
     binder::Status lockCeStorage(int32_t userId);
 
     binder::Status prepareUserStorage(const std::optional<std::string>& uuid, int32_t userId,

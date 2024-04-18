@@ -630,7 +630,7 @@ binder::Status VoldNativeService::destroyUserStorageKeys(int32_t userId) {
 }
 
 binder::Status VoldNativeService::setCeStorageProtection(int32_t userId,
-                                                         const std::string& secret) {
+                                                         const std::vector<uint8_t>& secret) {
     ENFORCE_SYSTEM_OR_ROOT;
     ACQUIRE_CRYPT_LOCK;
 
@@ -645,7 +645,8 @@ binder::Status VoldNativeService::getUnlockedUsers(std::vector<int>* _aidl_retur
     return Ok();
 }
 
-binder::Status VoldNativeService::unlockCeStorage(int32_t userId, const std::string& secret) {
+binder::Status VoldNativeService::unlockCeStorage(int32_t userId,
+                                                  const std::vector<uint8_t>& secret) {
     ENFORCE_SYSTEM_OR_ROOT;
     ACQUIRE_CRYPT_LOCK;
 
