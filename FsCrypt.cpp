@@ -675,26 +675,13 @@ bool fscrypt_destroy_user_keys(userid_t user_id) {
     return success;
 }
 
-static bool parse_hex(const std::string& hex, std::string* result) {
-    if (hex == "!") {
-        *result = "";
-        return true;
-    }
-    if (android::vold::HexToStr(hex, *result) != 0) {
-        LOG(ERROR) << "Invalid FBE hex string";  // Don't log the string for security reasons
-        return false;
-    }
-    return true;
-}
-
-static std::optional<android::vold::KeyAuthentication> authentication_from_hex(
-        const std::string& secret_hex) {
-    std::string secret;
-    if (!parse_hex(secret_hex, &secret)) return std::optional<android::vold::KeyAuthentication>();
-    if (secret.empty()) {
+static android::vold::KeyAuthentication authentication_from_secret(
+        const std::vector<uint8_t>& secret) {
+    std::string secret_str(secret.begin(), secret.end());
+    if (secret_str.empty()) {
         return kEmptyAuthentication;
     } else {
-        return android::vold::KeyAuthentication(secret);
+        return android::vold::KeyAuthentication(secret_str);
     }
 }
 
@@ -743,12 +730,11 @@ static bool destroy_volkey(const std::string& misc_path, const std::string& volu
 // re-encrypting the CE key upon upgrade from an Android version where the CE
 // key was stored with kEmptyAuthentication when the user didn't have an LSKF.
 // See the comments below for the different cases handled.
-bool fscrypt_set_ce_key_protection(userid_t user_id, const std::string& secret_hex) {
+bool fscrypt_set_ce_key_protection(userid_t user_id, const std::vector<uint8_t>& secret) {
     LOG(DEBUG) << "fscrypt_set_ce_key_protection " << user_id;
     if (!IsFbeEnabled()) return true;
-    auto auth = authentication_from_hex(secret_hex);
-    if (!auth) return false;
-    if (auth->secret.empty()) {
+    auto auth = authentication_from_secret(secret);
+    if (auth.secret.empty()) {
         LOG(ERROR) << "fscrypt_set_ce_key_protection: secret must be nonempty";
         return false;
     }
@@ -776,7 +762,7 @@ bool fscrypt_set_ce_key_protection(userid_t user_id, const std::string& secret_h
             // with the given secret.  This isn't expected, but in theory it
             // could happen if an upgrade is requested for a user more than once
             // due to a power-off or other interruption.
-            if (read_and_fixate_user_ce_key(user_id, *auth, &ce_key)) {
+            if (read_and_fixate_user_ce_key(user_id, auth, &ce_key)) {
                 LOG(WARNING) << "CE key is already protected by given secret";
                 return true;
             }
@@ -802,7 +788,7 @@ bool fscrypt_set_ce_key_protection(userid_t user_id, const std::string& secret_h
     auto const paths = get_ce_key_paths(directory_path);
     std::string ce_key_path;
     if (!get_ce_key_new_path(directory_path, paths, &ce_key_path)) return false;
-    if (!android::vold::storeKeyAtomically(ce_key_path, user_key_temp, *auth, ce_key)) return false;
+    if (!android::vold::storeKeyAtomically(ce_key_path, user_key_temp, auth, ce_key)) return false;
 
     // Fixate the key, i.e. delete all other bindings of it.  (In practice this
     // just means the kEmptyAuthentication binding, if there is one.)  However,
@@ -845,17 +831,16 @@ std::vector<int> fscrypt_get_unlocked_users() {
 // Unlocks internal CE storage for the given user.  This only unlocks internal storage, since
 // fscrypt_prepare_user_storage() has to be called for each adoptable storage volume anyway (since
 // the volume might have been absent when the user was created), and that handles the unlocking.
-bool fscrypt_unlock_ce_storage(userid_t user_id, const std::string& secret_hex) {
+bool fscrypt_unlock_ce_storage(userid_t user_id, const std::vector<uint8_t>& secret) {
     LOG(DEBUG) << "fscrypt_unlock_ce_storage " << user_id;
     if (!IsFbeEnabled()) return true;
     if (s_ce_policies.count(user_id) != 0) {
         LOG(WARNING) << "CE storage for user " << user_id << " is already unlocked";
         return true;
     }
-    auto auth = authentication_from_hex(secret_hex);
-    if (!auth) return false;
+    auto auth = authentication_from_secret(secret);
     KeyBuffer ce_key;
-    if (!read_and_fixate_user_ce_key(user_id, *auth, &ce_key)) return false;
+    if (!read_and_fixate_user_ce_key(user_id, auth, &ce_key)) return false;
     EncryptionPolicy ce_policy;
     if (!install_storage_key(DATA_MNT_POINT, s_data_options, ce_key, &ce_policy)) return false;
     s_ce_policies[user_id].internal = ce_policy;
