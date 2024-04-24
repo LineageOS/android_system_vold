@@ -47,6 +47,7 @@
 namespace android {
 namespace vold {
 
+using android::base::Basename;
 using android::fs_mgr::FstabEntry;
 using android::fs_mgr::GetEntryForMountPoint;
 using android::fscrypt::GetFirstApiLevel;
@@ -63,7 +64,6 @@ struct CryptoOptions {
 };
 
 static const std::string kDmNameUserdata = "userdata";
-static const std::string kDmNameUserdataZoned = "userdata_zoned";
 
 // The first entry in this table is the default crypto type.
 constexpr CryptoType supported_crypto_types[] = {aes_256_xts, adiantum};
@@ -153,7 +153,7 @@ static bool get_number_of_sectors(const std::string& real_blkdev, uint64_t* nr_s
 
 static bool create_crypto_blk_dev(const std::string& dm_name, const std::string& blk_device,
                                   const KeyBuffer& key, const CryptoOptions& options,
-                                  std::string* crypto_blkdev, uint64_t* nr_sec) {
+                                  std::string* crypto_blkdev, uint64_t* nr_sec, bool is_userdata) {
     if (!get_number_of_sectors(blk_device, nr_sec)) return false;
     // TODO(paulcrowley): don't hardcode that DmTargetDefaultKey uses 4096-byte
     // sectors
@@ -204,7 +204,7 @@ static bool create_crypto_blk_dev(const std::string& dm_name, const std::string&
     // If there are multiple partitions used for a single mount, F2FS stores
     // their partition paths in superblock. If the paths are dm targets, we
     // cannot guarantee them across device boots. Let's use the logical paths.
-    if (dm_name == kDmNameUserdata || dm_name == kDmNameUserdataZoned) {
+    if (is_userdata) {
         *crypto_blkdev = "/dev/block/mapper/" + dm_name;
     }
     return true;
@@ -246,11 +246,16 @@ static bool parse_options(const std::string& options_string, CryptoOptions* opti
 
 bool fscrypt_mount_metadata_encrypted(const std::string& blk_device, const std::string& mount_point,
                                       bool needs_encrypt, bool should_format,
-                                      const std::string& fs_type, const std::string& zoned_device) {
+                                      const std::string& fs_type, bool is_zoned,
+                                      const std::vector<std::string>& user_devices) {
     LOG(DEBUG) << "fscrypt_mount_metadata_encrypted: " << mount_point
                << " encrypt: " << needs_encrypt << " format: " << should_format << " with "
-               << fs_type << " block device: " << blk_device
-               << " and zoned device: " << zoned_device;
+               << fs_type << " block device: " << blk_device << " with zoned " << is_zoned;
+
+    for (auto& device : user_devices) {
+        LOG(DEBUG) << " - user devices: " << device;
+    }
+
     auto encrypted_state = android::base::GetProperty("ro.crypto.state", "");
     if (encrypted_state != "" && encrypted_state != "encrypted") {
         LOG(ERROR) << "fscrypt_mount_metadata_encrypted got unexpected starting state: "
@@ -290,7 +295,7 @@ bool fscrypt_mount_metadata_encrypted(const std::string& blk_device, const std::
     }
 
     auto default_metadata_key_dir = data_rec->metadata_key_dir;
-    if (!zoned_device.empty()) {
+    if (!user_devices.empty()) {
         default_metadata_key_dir = default_metadata_key_dir + "/default";
     }
     auto gen = needs_encrypt ? makeGen(options) : neverGen();
@@ -302,27 +307,28 @@ bool fscrypt_mount_metadata_encrypted(const std::string& blk_device, const std::
 
     std::string crypto_blkdev;
     uint64_t nr_sec;
-    if (!create_crypto_blk_dev(kDmNameUserdata, blk_device, key, options, &crypto_blkdev,
-                               &nr_sec)) {
+    if (!create_crypto_blk_dev(kDmNameUserdata, blk_device, key, options, &crypto_blkdev, &nr_sec,
+                               true)) {
         LOG(ERROR) << "create_crypto_blk_dev failed in mountFstab";
         return false;
     }
 
-    // create dm-default-key for zoned device
-    std::string crypto_zoned_blkdev;
-    if (!zoned_device.empty()) {
-        auto zoned_metadata_key_dir = data_rec->metadata_key_dir + "/zoned";
+    // create dm-default-key for user devices
+    std::vector<std::string> crypto_user_blkdev;
+    for (auto& device : user_devices) {
+        std::string name = Basename(device);
+        auto metadata_key_dir = data_rec->metadata_key_dir + "/" + name;
 
-        if (!read_key(zoned_metadata_key_dir, gen, false, &key)) {
-            LOG(ERROR) << "read_key failed with zoned device: " << zoned_device;
+        if (!read_key(metadata_key_dir, gen, false, &key)) {
+            LOG(ERROR) << "read_key failed with zoned device: " << device;
             return false;
         }
-        if (!create_crypto_blk_dev(kDmNameUserdataZoned, zoned_device, key, options,
-                                   &crypto_zoned_blkdev, &nr_sec)) {
-            LOG(ERROR) << "fscrypt_mount_metadata_encrypted: failed with zoned device: "
-                       << zoned_device;
+        std::string crypto_blkdev_arg;
+        if (!create_crypto_blk_dev(name, device, key, options, &crypto_blkdev_arg, &nr_sec, true)) {
+            LOG(ERROR) << "fscrypt_mount_metadata_encrypted: failed with device: " << device;
             return false;
         }
+        crypto_user_blkdev.push_back(crypto_blkdev_arg.c_str());
     }
 
     if (needs_encrypt) {
@@ -332,7 +338,7 @@ bool fscrypt_mount_metadata_encrypted(const std::string& blk_device, const std::
             if (fs_type == "ext4") {
                 error = ext4::Format(crypto_blkdev, 0, mount_point);
             } else if (fs_type == "f2fs") {
-                error = f2fs::Format(crypto_blkdev, crypto_zoned_blkdev);
+                error = f2fs::Format(crypto_blkdev, is_zoned, crypto_user_blkdev);
             } else {
                 LOG(ERROR) << "Unknown filesystem type: " << fs_type;
                 return false;
@@ -344,8 +350,9 @@ bool fscrypt_mount_metadata_encrypted(const std::string& blk_device, const std::
             }
             LOG(DEBUG) << "Format of " << crypto_blkdev << " for " << mount_point << " succeeded.";
         } else {
-            if (!zoned_device.empty()) {
-                LOG(ERROR) << "encrypt_inplace cannot support zoned device; should format it.";
+            if (!user_devices.empty()) {
+                LOG(ERROR) << "encrypt_inplace cannot support zoned or userdata_exp device; should "
+                              "format it.";
                 return false;
             }
             if (!encrypt_inplace(crypto_blkdev, blk_device, nr_sec)) {
@@ -384,7 +391,8 @@ bool defaultkey_setup_ext_volume(const std::string& label, const std::string& bl
     CryptoOptions options;
     if (!get_volume_options(&options)) return false;
     uint64_t nr_sec;
-    return create_crypto_blk_dev(label, blk_device, key, options, out_crypto_blkdev, &nr_sec);
+    return create_crypto_blk_dev(label, blk_device, key, options, out_crypto_blkdev, &nr_sec,
+                                 false);
 }
 
 bool destroy_dsu_metadata_key(const std::string& dsu_slot) {

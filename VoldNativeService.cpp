@@ -588,24 +588,24 @@ binder::Status VoldNativeService::initUser0() {
 }
 
 binder::Status VoldNativeService::mountFstab(const std::string& blkDevice,
-                                             const std::string& mountPoint,
-                                             const std::string& zonedDevice) {
+                                             const std::string& mountPoint, bool isZoned,
+                                             const std::vector<std::string>& userDevices) {
     ENFORCE_SYSTEM_OR_ROOT;
     ACQUIRE_LOCK;
 
     return translateBool(fscrypt_mount_metadata_encrypted(blkDevice, mountPoint, false, false,
-                                                          "null", zonedDevice));
+                                                          "null", isZoned, userDevices));
 }
 
 binder::Status VoldNativeService::encryptFstab(const std::string& blkDevice,
                                                const std::string& mountPoint, bool shouldFormat,
-                                               const std::string& fsType,
-                                               const std::string& zonedDevice) {
+                                               const std::string& fsType, bool isZoned,
+                                               const std::vector<std::string>& userDevices) {
     ENFORCE_SYSTEM_OR_ROOT;
     ACQUIRE_LOCK;
 
     return translateBool(fscrypt_mount_metadata_encrypted(blkDevice, mountPoint, true, shouldFormat,
-                                                          fsType, zonedDevice));
+                                                          fsType, isZoned, userDevices));
 }
 
 binder::Status VoldNativeService::setStorageBindingSeed(const std::vector<uint8_t>& seed) {
