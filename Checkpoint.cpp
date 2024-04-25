@@ -198,7 +198,8 @@ Status cp_commitChanges() {
 
     // Walk mounted file systems
     for (const auto& mount_rec : mounts) {
-        const auto fstab_rec = GetEntryForMountPoint(&fstab_default, mount_rec.mount_point);
+        const auto fstab_rec =
+                GetEntryForMountPoint(&fstab_default, mount_rec.mount_point, mount_rec.fs_type);
         if (!fstab_rec) continue;
 
         if (fstab_rec->fs_mgr_flags.checkpoint_fs) {
