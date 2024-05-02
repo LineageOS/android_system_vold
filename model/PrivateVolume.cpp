@@ -234,7 +234,7 @@ status_t PrivateVolume::doFormat(const std::string& fsType) {
             return -EIO;
         }
     } else if (resolvedFsType == "f2fs") {
-        if (f2fs::Format(mDmDevPath)) {
+        if (f2fs::Format(mDmDevPath, false, {})) {
             PLOG(ERROR) << getId() << " failed to format";
             return -EIO;
         }

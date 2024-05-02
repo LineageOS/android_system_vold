@@ -71,7 +71,8 @@ status_t Mount(const std::string& source, const std::string& target) {
     return res;
 }
 
-status_t Format(const std::string& source, const std::string& zoned_device) {
+status_t Format(const std::string& source, bool is_zoned,
+                const std::vector<std::string>& user_devices) {
     std::vector<char const*> cmd;
     cmd.emplace_back(kMkfsPath);
 
@@ -96,12 +97,13 @@ status_t Format(const std::string& source, const std::string& zoned_device) {
         cmd.emplace_back("-C");
         cmd.emplace_back("utf8");
     }
-    if (!zoned_device.empty()) {
-        cmd.emplace_back("-c");
-        cmd.emplace_back(zoned_device.c_str());
+    if (is_zoned) {
         cmd.emplace_back("-m");
     }
-
+    for (auto& device : user_devices) {
+        cmd.emplace_back("-c");
+        cmd.emplace_back(device.c_str());
+    }
     std::string block_size = std::to_string(getpagesize());
     cmd.emplace_back("-b");
     cmd.emplace_back(block_size.c_str());

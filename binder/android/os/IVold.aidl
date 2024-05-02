@@ -83,8 +83,8 @@ interface IVold {
     void fbeEnable();
 
     void initUser0();
-    void mountFstab(@utf8InCpp String blkDevice, @utf8InCpp String mountPoint, @utf8InCpp String zonedDevice);
-    void encryptFstab(@utf8InCpp String blkDevice, @utf8InCpp String mountPoint, boolean shouldFormat, @utf8InCpp String fsType, @utf8InCpp String zonedDevice);
+    void mountFstab(@utf8InCpp String blkDevice, @utf8InCpp String mountPoint, boolean isZoned, in @utf8InCpp String[] userDevices);
+    void encryptFstab(@utf8InCpp String blkDevice, @utf8InCpp String mountPoint, boolean shouldFormat, @utf8InCpp String fsType, boolean isZoned, in @utf8InCpp String[] userDevices);
 
     void setStorageBindingSeed(in byte[] seed);
 
