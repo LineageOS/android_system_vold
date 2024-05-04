@@ -86,6 +86,38 @@ static void bindkeys(std::vector<std::string>& args, const android::sp<android::
     checkStatus(args, vold->setStorageBindingSeed(seed));
 }
 
+static void mountFstab(std::vector<std::string>& args,
+                       const android::sp<android::os::IVold>& vold) {
+    auto isZoned = android::base::ParseBool(args[4]);
+    if (isZoned == android::base::ParseBoolResult::kError) exit(EINVAL);
+
+    std::vector<std::string> userDevices = {};
+    if (args[5] != "") {
+        userDevices = android::base::Split(args[5], " ");
+    }
+    checkStatus(args,
+                vold->mountFstab(args[2], args[3], isZoned == android::base::ParseBoolResult::kTrue,
+                                 userDevices));
+}
+
+static void encryptFstab(std::vector<std::string>& args,
+                         const android::sp<android::os::IVold>& vold) {
+    auto shouldFormat = android::base::ParseBool(args[4]);
+    if (shouldFormat == android::base::ParseBoolResult::kError) exit(EINVAL);
+
+    auto isZoned = android::base::ParseBool(args[6]);
+    if (isZoned == android::base::ParseBoolResult::kError) exit(EINVAL);
+
+    std::vector<std::string> userDevices = {};
+    if (args[7] != "") {
+        userDevices = android::base::Split(args[7], " ");
+    }
+    checkStatus(args,
+                vold->encryptFstab(args[2], args[3],
+                                   shouldFormat == android::base::ParseBoolResult::kTrue, args[5],
+                                   isZoned == android::base::ParseBoolResult::kTrue, userDevices));
+}
+
 int main(int argc, char** argv) {
     setenv("ANDROID_LOG_TAGS", "*:v", 1);
     if (getppid() == 1) {
@@ -128,14 +160,10 @@ int main(int argc, char** argv) {
         LOG(INFO) << size;
     } else if (args[0] == "cryptfs" && args[1] == "bindkeys") {
         bindkeys(args, vold);
-    } else if (args[0] == "cryptfs" && args[1] == "mountFstab" && args.size() == 5) {
-        checkStatus(args, vold->mountFstab(args[2], args[3], args[4]));
-    } else if (args[0] == "cryptfs" && args[1] == "encryptFstab" && args.size() == 7) {
-        auto shouldFormat = android::base::ParseBool(args[4]);
-        if (shouldFormat == android::base::ParseBoolResult::kError) exit(EINVAL);
-        checkStatus(args, vold->encryptFstab(args[2], args[3],
-                                             shouldFormat == android::base::ParseBoolResult::kTrue,
-                                             args[5], args[6]));
+    } else if (args[0] == "cryptfs" && args[1] == "mountFstab" && args.size() == 6) {
+        mountFstab(args, vold);
+    } else if (args[0] == "cryptfs" && args[1] == "encryptFstab" && args.size() == 8) {
+        encryptFstab(args, vold);
     } else if (args[0] == "checkpoint" && args[1] == "supportsCheckpoint" && args.size() == 2) {
         bool supported = false;
         checkStatus(args, vold->supportsCheckpoint(&supported));
