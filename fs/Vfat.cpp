@@ -114,7 +114,7 @@ status_t Check(const std::string& source) {
                 errno = EIO;
                 return -1;
         }
-    } while (0);
+    } while (1);
 
     return 0;
 }
