@@ -20,6 +20,7 @@
 #include <utils/Errors.h>
 
 #include <string>
+#include <vector>
 
 namespace android {
 namespace vold {
