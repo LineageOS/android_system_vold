@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdd1db5c_eb3fbf1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16185
+      },
+      "writtenOn": "2024-05-28T00:24:24Z",
+      "side": 1,
+      "message": "Functional and utilized on nx among other \"boot OS from sdcard\" devices.",
+      "revId": "cfb169c2f5abdba459188501d454a218a2758533",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
