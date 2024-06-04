@@ -163,9 +163,6 @@ cc_library_static {
             cppflags: ["-D__ANDROID_DEBUGGABLE__"],
         },
     },
-    whole_static_libs: [
-        "libc++fs",
-    ],
 }
 
 cc_binary {
