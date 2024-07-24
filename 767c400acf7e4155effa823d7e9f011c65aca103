@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ddc5870_0693831a",
+        "filename": "VolumeManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2024-07-24T08:19:27Z",
+      "side": 1,
+      "message": "newline",
+      "revId": "767c400acf7e4155effa823d7e9f011c65aca103",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4f0f96f_bd857dbb",
         "filename": "model/Disk.cpp",
         "patchSetId": 1
@@ -20,6 +37,23 @@
         "endLine": 358,
         "endChar": 65
       },
+      "revId": "767c400acf7e4155effa823d7e9f011c65aca103",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26093d7b_622e5c5d",
+        "filename": "model/PublicVolume.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2024-07-24T08:19:27Z",
+      "side": 1,
+      "message": "maybe add a stub ::check that always succeeds?\nor add an empty if \u003d\u003d iso { // do nothing }",
       "revId": "767c400acf7e4155effa823d7e9f011c65aca103",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
