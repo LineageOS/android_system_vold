@@ -347,6 +347,20 @@ status_t Disk::readPartitions() {
 
     destroyAllVolumes();
 
+    std::string cdFsType, cdUnused;
+    if (ReadMetadataUntrusted(mDevPath, &cdFsType, &cdUnused, &cdUnused) == OK) {
+        if (cdFsType == "iso9660" || cdFsType == "udf") {
+            LOG(INFO) << "Detect " << cdFsType;
+            createPublicVolume(mDevice);
+
+            auto listener = VolumeManager::Instance()->getListener();
+            if (listener) listener->onDiskScanned(getId());
+
+            mJustPartitioned = false;
+            return OK;
+        }
+    }
+
     // Parse partition table
 
     std::vector<std::string> cmd;
@@ -358,15 +372,6 @@ status_t Disk::readPartitions() {
     status_t res = maxMinors ? ForkExecvp(cmd, &output) : ENODEV;
     if (res != OK) {
         LOG(WARNING) << "sgdisk failed to scan " << mDevPath;
-
-        std::string fsType, unused;
-        if (ReadMetadataUntrusted(mDevPath, &fsType, &unused, &unused) == OK) {
-            if (fsType == "iso9660" || fsType == "udf") {
-                LOG(INFO) << "Detect " << fsType;
-                createPublicVolume(mDevice);
-                res = OK;
-            }
-        }
 
         auto listener = VolumeManager::Instance()->getListener();
         if (listener) listener->onDiskScanned(getId());
