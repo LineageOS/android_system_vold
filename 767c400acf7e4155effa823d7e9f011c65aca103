@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4f0f96f_bd857dbb",
+        "filename": "model/Disk.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2024-07-24T07:35:10Z",
+      "side": 1,
+      "message": "move to the previous change?",
+      "range": {
+        "startLine": 358,
+        "startChar": 0,
+        "endLine": 358,
+        "endChar": 65
+      },
+      "revId": "767c400acf7e4155effa823d7e9f011c65aca103",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
