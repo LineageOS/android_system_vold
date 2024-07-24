@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df49dbfd_f66b76bb",
+        "filename": "fs/Iso9660.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2024-07-24T07:34:07Z",
+      "side": 1,
+      "message": "```suggestion\n    int mountFlags \u003d MS_NODEV | MS_NOEXEC | MS_NOSUID | MS_DIRSYNC | MS_RDONLY;\n    auto mountData \u003d android::base::StringPrintf(\"utf8,uid\u003d%d,gid\u003d%d\", ownerUid,\n                                                 ownerGid);\n\n    if (mount(source.c_str(), target.c_str(), \"iso9660\", mountFlags, mountData.c_str()) \u003d\u003d 0) {\n        return 0;\n    }\n\n    if (mount(source.c_str(), target.c_str(), \"udf\", mountFlags, mountData.c_str()) \u003d\u003d 0) {\n        return 0;\n    }\n\n    return -1;\n```",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 14
+      },
+      "revId": "f6c6c0201fc4cc91c931761330031324b764be07",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
