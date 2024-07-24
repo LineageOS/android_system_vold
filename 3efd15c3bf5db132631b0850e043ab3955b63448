@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a00c91a3_fe8c2d6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2024-07-24T07:36:11Z",
+      "side": 1,
+      "message": "I think you can squash the bit that add support for mounting, same goes for the other set of changes for recognizing cdroms as cdroms",
+      "revId": "3efd15c3bf5db132631b0850e043ab3955b63448",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
