@@ -18,6 +18,24 @@
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fce2e42c_d5063fc4",
+        "filename": "VolumeManager.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 32245
+      },
+      "writtenOn": "2024-07-25T08:54:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ddc5870_0693831a",
+      "revId": "767c400acf7e4155effa823d7e9f011c65aca103",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4f0f96f_bd857dbb",
@@ -41,6 +59,30 @@
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "845124a6_f3b02c4a",
+        "filename": "model/Disk.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 32245
+      },
+      "writtenOn": "2024-07-25T08:54:13Z",
+      "side": 1,
+      "message": "this change is supposed to be a fixup of the previous change, see the commit message...",
+      "parentUuid": "a4f0f96f_bd857dbb",
+      "range": {
+        "startLine": 358,
+        "startChar": 0,
+        "endLine": 358,
+        "endChar": 65
+      },
+      "revId": "767c400acf7e4155effa823d7e9f011c65aca103",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26093d7b_622e5c5d",
@@ -54,6 +96,24 @@
       "writtenOn": "2024-07-24T08:19:27Z",
       "side": 1,
       "message": "maybe add a stub ::check that always succeeds?\nor add an empty if \u003d\u003d iso { // do nothing }",
+      "revId": "767c400acf7e4155effa823d7e9f011c65aca103",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51c843a8_137e5472",
+        "filename": "model/PublicVolume.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 32245
+      },
+      "writtenOn": "2024-07-25T08:54:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26093d7b_622e5c5d",
       "revId": "767c400acf7e4155effa823d7e9f011c65aca103",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
