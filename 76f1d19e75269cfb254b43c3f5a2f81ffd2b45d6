@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c862e57_926d85c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2024-07-25T09:15:14Z",
+      "side": 1,
+      "message": "well, something like that lol\ndidn\u0027t see this change, but make sure to only run that code for the specific maxMinors you expect to avoid useless attempts?\nI\u0027d prefer to have those \"hacky\" change in a single commit (readMetadata and readPartitions)",
+      "revId": "76f1d19e75269cfb254b43c3f5a2f81ffd2b45d6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
