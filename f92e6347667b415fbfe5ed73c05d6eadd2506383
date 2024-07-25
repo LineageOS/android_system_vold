@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e01c868_7c1b4252",
+        "filename": "model/Disk.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2024-07-25T09:13:12Z",
+      "side": 1,
+      "message": "1) move this change on the next CL\n2) this is reaaally hacky.\n\nyou know maxMinors \u003d 0 for CDROM and that exec will always fail so that\u0027s useless attempting to run I think, I\u0027d introduce a constant somewhere that specifies that and then before \"// Parse partition table\" I\u0027d add the logic to do this code and early return in case.",
+      "range": {
+        "startLine": 358,
+        "startChar": 0,
+        "endLine": 365,
+        "endChar": 9
+      },
+      "revId": "f92e6347667b415fbfe5ed73c05d6eadd2506383",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
