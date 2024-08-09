@@ -104,6 +104,7 @@ static const char* kPropVirtualDisk = "persist.sys.virtual_disk";
 /* 512MiB is large enough for testing purposes */
 static const unsigned int kSizeVirtualDisk = 536870912;
 
+static const unsigned int kMajorBlockCdrom = 11;
 static const unsigned int kMajorBlockMmc = 179;
 
 using ScanProcCallback = bool(*)(uid_t uid, pid_t pid, int nsFd, const char* name, void* params);
@@ -225,6 +226,8 @@ void VolumeManager::handleBlockEvent(NetlinkEvent* evt) {
                     int flags = source->getFlags();
                     if (major == kMajorBlockMmc || IsVirtioBlkDevice(major)) {
                         flags |= android::vold::Disk::Flags::kSd;
+                    } else if (major == kMajorBlockCdrom) {
+                        flags |= android::vold::Disk::Flags::kCdrom;
                     } else {
                         flags |= android::vold::Disk::Flags::kUsb;
                     }
