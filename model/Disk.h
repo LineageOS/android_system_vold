@@ -61,6 +61,8 @@ class Disk {
         kStubVisible = 1 << 6,
         /* Flag that disk is non-removable */
         kNonRemovable = 1 << 7,
+        /* Flag that disk is CDROM */
+        kCdrom = 1 << 8,
     };
 
     const std::string& getId() const { return mId; }
