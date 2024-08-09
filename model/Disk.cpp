@@ -75,6 +75,7 @@ static const unsigned int kMajorBlockScsiP = 135;
 static const unsigned int kMajorBlockMmc = 179;
 static const unsigned int kMajorBlockDynamicMin = 234;
 static const unsigned int kMajorBlockDynamicMax = 512;
+static const unsigned int kMajorBlockCdrom = 11;
 
 static const char* kGptBasicData = "EBD0A0A2-B9E5-4433-87C0-68B6B72699C7";
 static const char* kGptLinuxFilesystem = "0FC63DAF-8483-4772-8E79-3D69D8477DE4";
@@ -257,6 +258,9 @@ status_t Disk::readMetadata() {
             mLabel = "Virtual";
             break;
         }
+        case kMajorBlockCdrom:
+            LOG(DEBUG) << "Found a CDROM: " << mSysPath;
+            FALLTHROUGH_INTENDED;
         // clang-format off
         case kMajorBlockScsiA: case kMajorBlockScsiB: case kMajorBlockScsiC:
         case kMajorBlockScsiD: case kMajorBlockScsiE: case kMajorBlockScsiF:
@@ -330,6 +334,12 @@ status_t Disk::readMetadata() {
 }
 
 status_t Disk::readPartitions() {
+    std::vector<std::string> cmd;
+    std::vector<std::string> output;
+    Table table = Table::kUnknown;
+    bool foundParts = false;
+    status_t res;
+
     int maxMinors = getMaxMinors();
     if (maxMinors < 0) {
         return -ENOTSUP;
@@ -343,15 +353,23 @@ status_t Disk::readPartitions() {
 
     destroyAllVolumes();
 
+    if (!maxMinors) {
+        std::string cdFsType, cdUnused;
+        if (ReadMetadataUntrusted(mDevPath, &cdFsType, &cdUnused, &cdUnused) == OK) {
+            if (cdFsType == "iso9660" || cdFsType == "udf") {
+                LOG(INFO) << "Detect " << cdFsType;
+                goto treat_disk_as_partition;
+            }
+        }
+    }
+
     // Parse partition table
 
-    std::vector<std::string> cmd;
     cmd.push_back(kSgdiskPath);
     cmd.push_back("--android-dump");
     cmd.push_back(mDevPath);
 
-    std::vector<std::string> output;
-    status_t res = ForkExecvp(cmd, &output);
+    res = ForkExecvp(cmd, &output);
     if (res != OK) {
         LOG(WARNING) << "sgdisk failed to scan " << mDevPath;
 
@@ -362,8 +380,6 @@ status_t Disk::readPartitions() {
         return res;
     }
 
-    Table table = Table::kUnknown;
-    bool foundParts = false;
     for (const auto& line : output) {
         auto split = android::base::Split(line, kSgdiskToken);
         auto it = split.begin();
@@ -424,6 +440,7 @@ status_t Disk::readPartitions() {
         }
     }
 
+treat_disk_as_partition:
     // Ugly last ditch effort, treat entire disk as partition
     if (table == Table::kUnknown || !foundParts) {
         LOG(WARNING) << mId << " has unknown partition table; trying entire device";
@@ -637,6 +654,9 @@ int Disk::getMaxMinors() {
             // clang-format on
             // Per Documentation/devices.txt this is static
             return 15;
+        }
+        case kMajorBlockCdrom: {
+            return 0;
         }
         case kMajorBlockMmc: {
             // Per Documentation/devices.txt this is dynamic
