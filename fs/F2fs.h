@@ -33,7 +33,8 @@ status_t Mount(const std::string& source, const std::string& target,
                const std::string& opts = "", bool trusted = false,
                bool portable = false);
 status_t Format(const std::string& source, const bool is_zoned,
-                const std::vector<std::string>& user_devices, int64_t length = 0);
+                const std::vector<std::string>& user_devices,
+                const std::vector<bool>& device_aliased, int64_t length = 0);
 
 }  // namespace f2fs
 }  // namespace vold
