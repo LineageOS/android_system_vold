@@ -18,6 +18,7 @@
 #define ANDROID_VOLD_FILEDEVICEUTILS_H
 
 #include <linux/fiemap.h>
+#include <memory>
 #include <string>
 
 namespace android {
