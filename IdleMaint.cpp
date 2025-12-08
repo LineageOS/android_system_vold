@@ -16,6 +16,7 @@
 
 #include "IdleMaint.h"
 #include "FileDeviceUtils.h"
+#include "NvmeDeviceUtils.h"
 #include "Utils.h"
 #include "VoldUtil.h"
 #include "VolumeManager.h"
@@ -65,6 +66,7 @@ enum class IdleMaintStats {
 
 static const char* kWakeLock = "IdleMaint";
 static const int DIRTY_SEGMENTS_THRESHOLD = 100;
+
 /*
  * Timing policy:
  *  1. F2FS_GC = 7 mins
@@ -84,6 +86,10 @@ static IdleMaintStats idle_maint_stat(IdleMaintStats::kStopped);
 static std::condition_variable cv_abort, cv_stop;
 static std::mutex cv_m;
 
+static bool isSupportedFsType(const std::string& fs_type) {
+    return fs_type == "ext4" || fs_type == "f2fs";
+}
+
 static void addFromVolumeManager(std::list<std::string>* paths, PathTypes path_type) {
     VolumeManager* vm = VolumeManager::Instance();
     std::list<std::string> privateIds;
@@ -94,11 +100,11 @@ static void addFromVolumeManager(std::list<std::string>* paths, PathTypes path_t
             if (path_type == PathTypes::kMountPoint) {
                 paths->push_back(vol->getPath());
             } else if (path_type == PathTypes::kBlkDevice) {
-                std::string gc_path;
+                std::string blk_path;
                 const std::string& fs_type = vol->getFsType();
-                if (fs_type == "f2fs" && (Realpath(vol->getRawDmDevPath(), &gc_path) ||
-                                          Realpath(vol->getRawDevPath(), &gc_path))) {
-                    paths->push_back(std::string("/sys/fs/") + fs_type + "/" + Basename(gc_path));
+                if (isSupportedFsType(fs_type) && (Realpath(vol->getRawDmDevPath(), &blk_path) ||
+                                                   Realpath(vol->getRawDevPath(), &blk_path))) {
+                    paths->push_back(std::string("/sys/fs/") + fs_type + "/" + Basename(blk_path));
                 }
             }
         }
@@ -141,7 +147,7 @@ static void addFromFstab(std::list<std::string>* paths, PathTypes path_type, boo
             paths->push_back(entry.mount_point);
         } else if (path_type == PathTypes::kBlkDevice) {
             std::string path;
-            if (entry.fs_type == "f2fs" &&
+            if (isSupportedFsType(entry.fs_type) &&
                 Realpath(android::vold::BlockDeviceForPath(entry.mount_point + "/"), &path)) {
                 paths->push_back("/sys/fs/" + entry.fs_type + "/" + Basename(path));
             }
@@ -399,6 +405,28 @@ int AbortIdleMaint(const android::sp<android::os::IVoldTaskListener>& listener) 
     return android::OK;
 }
 
+int32_t GetStorageLifeTimeDirect() {
+    android::fs_mgr::FstabEntry* entry =
+            android::fs_mgr::GetEntryForMountPoint(&fstab_default, DATA_MNT_POINT);
+    if (entry == nullptr) {
+        LOG(ERROR) << "No mount point entry for " << DATA_MNT_POINT;
+        return -1;
+    }
+
+    std::string real_path;
+    if (!Realpath(entry->blk_device, &real_path)) {
+        real_path = entry->blk_device;
+    }
+
+    if (Basename(real_path).find("nvme") != std::string::npos) {
+        // lifetime is between 0 and 255. 100..255 means the NVMe device
+        // estimated endurance has been reached, but does not indicate a
+        // failure.
+        return GetNvmeStorageLifeTime(real_path);
+    }
+    return -1;
+}
+
 int getLifeTime(const std::string& path) {
     std::string result;
 
@@ -410,47 +438,51 @@ int getLifeTime(const std::string& path) {
 }
 
 int32_t GetStorageLifeTime() {
-    std::string path = getDevSysfsPath();
-    if (path.empty()) {
-        return -1;
-    }
+    int32_t lifeTime = GetStorageLifeTimeDirect();
+    if (lifeTime == -1) {
+        std::string path = getDevSysfsPath();
+        if (path.empty()) {
+            return -1;
+        }
+        std::string lifeTimeBasePath = path + "/health_descriptor/life_time_estimation_";
 
-    std::string lifeTimeBasePath = path + "/health_descriptor/life_time_estimation_";
+        lifeTime = getLifeTime(lifeTimeBasePath + "c");
+        if (lifeTime == -1) {
+            int32_t lifeTimeA = getLifeTime(lifeTimeBasePath + "a");
+            int32_t lifeTimeB = getLifeTime(lifeTimeBasePath + "b");
+            lifeTime = std::max(lifeTimeA, lifeTimeB);
+            if (lifeTime <= 0) {
+                return -1;
+            }
 
-    int32_t lifeTime = getLifeTime(lifeTimeBasePath + "c");
-    if (lifeTime != -1) {
-        return lifeTime;
+            lifeTime = lifeTime * 10;
+        }
     }
-
-    int32_t lifeTimeA = getLifeTime(lifeTimeBasePath + "a");
-    int32_t lifeTimeB = getLifeTime(lifeTimeBasePath + "b");
-    lifeTime = std::max(lifeTimeA, lifeTimeB);
-    if (lifeTime != -1) {
-        return lifeTime == 0 ? -1 : lifeTime * 10;
-    }
-    return -1;
+    return lifeTime;
 }
 
 int32_t GetStorageRemainingLifetime() {
-    std::string path = getDevSysfsPath();
-    if (path.empty()) {
-        return -1;
-    }
-
-    std::string lifeTimeBasePath = path + "/health_descriptor/life_time_estimation_";
-
-    int32_t lifeTime = getLifeTime(lifeTimeBasePath + "c");
+    int32_t lifeTime = GetStorageLifeTimeDirect();
     if (lifeTime == -1) {
-        int32_t lifeTimeA = getLifeTime(lifeTimeBasePath + "a");
-        int32_t lifeTimeB = getLifeTime(lifeTimeBasePath + "b");
-        lifeTime = std::max(lifeTimeA, lifeTimeB);
-        if (lifeTime <= 0) {
+        std::string path = getDevSysfsPath();
+        if (path.empty()) {
             return -1;
         }
+        std::string lifeTimeBasePath = path + "/health_descriptor/life_time_estimation_";
 
-        // 1 = 0-10% used, 10 = 90-100% used. Subtract 1 so that a brand new
-        // device looks 0% used.
-        lifeTime = (lifeTime - 1) * 10;
+        lifeTime = getLifeTime(lifeTimeBasePath + "c");
+        if (lifeTime == -1) {
+            int32_t lifeTimeA = getLifeTime(lifeTimeBasePath + "a");
+            int32_t lifeTimeB = getLifeTime(lifeTimeBasePath + "b");
+            lifeTime = std::max(lifeTimeA, lifeTimeB);
+            if (lifeTime <= 0) {
+                return -1;
+            }
+
+            // 1 = 0-10% used, 10 = 90-100% used. Subtract 1 so that a brand new
+            // device looks 0% used.
+            lifeTime = (lifeTime - 1) * 10;
+        }
     }
     return 100 - std::clamp(lifeTime, 0, 100);
 }

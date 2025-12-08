@@ -135,6 +135,7 @@ cc_library_static {
         "MoveStorage.cpp",
         "NetlinkHandler.cpp",
         "NetlinkManager.cpp",
+        "NvmeDeviceUtils.cpp",
         "Process.cpp",
         "Utils.cpp",
         "VendorVoldNativeService.cpp",
@@ -201,7 +202,7 @@ cc_binary {
     required: [
         "mke2fs",
         "vold_prepare_subdirs",
-        "fuseMedia.o",
+        "fuseMedia.bpf",
     ],
 
     product_variables: {
