@@ -57,6 +57,30 @@
       },
       "revId": "bc007f6a3e1dbb918542ee1d19271ec7b9770a2c",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b48f125_14e60924",
+        "filename": "FsCrypt.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 34519
+      },
+      "writtenOn": "2026-07-13T09:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dd7a954_7a67c1f7",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 97
+      },
+      "revId": "bc007f6a3e1dbb918542ee1d19271ec7b9770a2c",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
