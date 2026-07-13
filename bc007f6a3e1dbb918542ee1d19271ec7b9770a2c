@@ -16,6 +16,24 @@
       "message": "This needs to be updated against LA.QSSI.17.0.r1-08000-qssi.0.",
       "revId": "bc007f6a3e1dbb918542ee1d19271ec7b9770a2c",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1351135b_8328753b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2026-07-13T09:38:13Z",
+      "side": 1,
+      "message": "Does QSSI still support old wrappedkey?",
+      "parentUuid": "e399f13e_febaac3a",
+      "revId": "bc007f6a3e1dbb918542ee1d19271ec7b9770a2c",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
