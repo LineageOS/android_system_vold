@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a407c808_85cfd403",
+        "filename": "FsCrypt.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 34519
+      },
+      "writtenOn": "2026-07-13T10:55:49Z",
+      "side": 1,
+      "message": "Actually this change from LA.QSSI.17.0.r1-08000-qssi.0 is working fine, hence why kept it, should i remove it?",
+      "parentUuid": "bcd7d60a_596e1416",
+      "range": {
+        "startLine": 343,
+        "startChar": 8,
+        "endLine": 343,
+        "endChar": 94
+      },
+      "revId": "56e57dfd97c808d6741e68b5fe0d21e9aa105273",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9adf60ee_a5977a08",
         "filename": "KeyUtil.cpp",
         "patchSetId": 5
