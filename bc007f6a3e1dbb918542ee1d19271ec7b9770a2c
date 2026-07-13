@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e399f13e_febaac3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13648
+      },
+      "writtenOn": "2026-07-13T09:19:21Z",
+      "side": 1,
+      "message": "This needs to be updated against LA.QSSI.17.0.r1-08000-qssi.0.",
+      "revId": "bc007f6a3e1dbb918542ee1d19271ec7b9770a2c",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
