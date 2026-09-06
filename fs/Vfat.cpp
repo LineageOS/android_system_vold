@@ -171,7 +171,7 @@ status_t Mount(const std::string& source, const std::string& target, bool ro, bo
         // written at different times of the year can have incorrect times
         // calculated, e.g. offset incorrectly by one hour.
         int16_t timeOffsetArg = currentUtcOffsetMinutes();
-        mountData += android::base::StringPrintf(",time_offset=%d", timeOffsetArg);
+        // mountData += android::base::StringPrintf(",time_offset=%d", timeOffsetArg);
     }
 
     rc = mount(c_source, c_target, "vfat", flags, mountData.c_str());
