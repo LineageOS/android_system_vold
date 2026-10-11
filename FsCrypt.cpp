@@ -340,7 +340,7 @@ static bool init_data_file_encryption_options() {
         return false;
     }
     if (s_data_options.version == 1) {
-        if (is_metadata_wrapped_key_supported()) {
+        if (is_metadata_wrapped_key_supported() || entry->fs_mgr_flags.wrapped_key) {
             s_data_options.key_type = KeyType::kHwWrappedV0;
         } else {
             s_data_options.key_type = KeyType::kRaw;
@@ -389,7 +389,8 @@ static bool get_volume_file_encryption_options(EncryptionOptions* options) {
 }
 
 bool is_metadata_wrapped_key_supported() {
-    return GetEntryForMountPoint(&fstab_default, METADATA_MNT_POINT)->fs_mgr_flags.wrapped_key;
+    auto entry = GetEntryForMountPoint(&fstab_default, METADATA_MNT_POINT);
+    return entry != nullptr && entry->fs_mgr_flags.wrapped_key;
 }
 
 // Prepare a directory without assigning it an encryption policy.  The directory
