@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fe2d30f_0f5d93e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 29742
+      },
+      "writtenOn": "2026-10-11T13:32:17Z",
+      "side": 1,
+      "message": "This patch likely won\u0027t be necessary in most cases, especially since nearly all official devices already have a metadata partition, and legacy support is no longer supported. Still, it can serve as a workaround for devices that lack a metadata partition entirely.",
+      "revId": "0d4b5a5830e1e3ef478f2b98caa2462ccab91740",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
