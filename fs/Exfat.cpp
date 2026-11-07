@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
+#include <fcntl.h>
+#include <stdint.h>
+#include <string.h>
 #include <sys/mount.h>
+#include <unistd.h>
 
+#include <android-base/file.h>
 #include <android-base/logging.h>
 #include <android-base/stringprintf.h>
+#include <android-base/unique_fd.h>
 
 #include <logwrap/logwrap.h>
 
@@ -33,12 +39,44 @@ namespace exfat {
 static const char* kMkfsPath = "/system/bin/mkfs.exfat";
 static const char* kFsckPath = "/system/bin/fsck.exfat";
 
+static constexpr off_t kVolumeFlagsOffset = 106;
+static constexpr uint16_t kVolumeDirtyFlag = 0x0002;
+static constexpr uint16_t kMediaFailureFlag = 0x0004;
+
 bool IsSupported() {
     return access(kMkfsPath, X_OK) == 0 && access(kFsckPath, X_OK) == 0 &&
            IsFilesystemSupported("exfat");
 }
 
+static bool NeedsCheck(const std::string& source) {
+    android::base::unique_fd fd(TEMP_FAILURE_RETRY(open(source.c_str(), O_RDONLY | O_CLOEXEC)));
+    if (fd < 0) {
+        PLOG(WARNING) << "Unable to open " << source << " to read volume flags";
+        return true;
+    }
+
+    uint8_t boot_sector[512];
+    if (!android::base::ReadFullyAtOffset(fd, boot_sector, sizeof(boot_sector), 0)) {
+        PLOG(WARNING) << "Unable to read boot sector from " << source;
+        return true;
+    }
+
+    if (memcmp(boot_sector + 3, "EXFAT   ", 8) != 0) {
+        LOG(WARNING) << "No exFAT signature on " << source;
+        return true;
+    }
+
+    uint16_t volume_flags =
+            boot_sector[kVolumeFlagsOffset] | (boot_sector[kVolumeFlagsOffset + 1] << 8);
+    return (volume_flags & (kVolumeDirtyFlag | kMediaFailureFlag)) != 0;
+}
+
 status_t Check(const std::string& source) {
+    if (!NeedsCheck(source)) {
+        LOG(INFO) << source << ": filesystem is clean; skipping check";
+        return 0;
+    }
+
     std::vector<std::string> cmd;
     cmd.push_back(kFsckPath);
     cmd.push_back("-y");
