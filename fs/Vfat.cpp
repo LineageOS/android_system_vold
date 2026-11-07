@@ -64,7 +64,6 @@ status_t Check(const std::string& source) {
         std::vector<std::string> cmd;
         cmd.push_back(kFsckPath);
         cmd.push_back("-p");
-        cmd.push_back("-f");
         cmd.push_back("-y");
         cmd.push_back(source);
 
